@@ -11,7 +11,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder",
     "data:destroy": "node backend/seeder -d",
-    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "repository": {
     "type": "git",
@@ -25,10 +25,12 @@
   "homepage": "https://github.com/upendradhamala/School-Management-System#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
+    "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^6.2.0",
     "mongoose": "^5.12.4",
     "nepali-date-converter": "^3.3.1"
   },
