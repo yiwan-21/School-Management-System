@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { ChakraProvider } from '@chakra-ui/react'
 import Landing from './screens/Landing'
 // import
 // import { Button } from 'react-bootstrap'
@@ -33,102 +34,104 @@ import PrivateRoute from '../src/utils/PrivateRoute'
 
 const App = () => {
   return (
-    <Router>
-      <div>
-        <Switch>
-          <PrivateRoute path='/' component={Landing} exact />
-          <Route path='/login' component={Login} exact />
-          <PrivateRoute path='/student-register' component={StudentRegister} />
-          <PrivateRoute path='/student-fee' component={StudentFees} />
-          <PrivateRoute
-            path='/student_details'
-            component={StudentDetails}
-            exact
-          />
-          <PrivateRoute
-            path='/student_details/details/:id'
-            component={StudentDeepDetails}
-            exact
-          />
-          {/* <PrivateRoute
-            path='/student-attendance'
-            component={underConstruction}
-            exact
-          /> */}
-          <PrivateRoute
-            path='/teacher_attendance'
-            component={underConstruction}
-            exact
-          />
-          <PrivateRoute
-            path='/non-teaching_staff_attendance'
-            component={underConstruction}
-            exact
-          />
-          <PrivateRoute
-            path='/student-attendance/:class'
-            component={StudentDeepAttendance}
-            exact
-          />
-          <PrivateRoute path='/students' component={AllStudents} exact />
-          <PrivateRoute path='/admit_card' component={StudentAdmitCard} exact />
-          <PrivateRoute
-            path='/admit_card/allstudents'
-            component={AllStudentsAdmitCard}
-            exact
-          />
-          <PrivateRoute
-            path='/admit_card/classes'
-            component={StudentClassAdmitCard}
-            exact
-          />
-          <PrivateRoute
-            path='/admit_card/classes/:id'
-            component={StudentClassAdmitCardDeep}
-            exact
-          />
-          <PrivateRoute
-            path='/admit_card/student'
-            component={ParticularStudentAdmitCard}
-            exact
-          />
-          <PrivateRoute
-            path='/teacher_salary'
-            component={TeacherSalary}
-            exact
-          />
-          <PrivateRoute
-            path='/teacher_register'
-            component={TeacherRegister}
-            exact
-          />
-          <PrivateRoute path='/teacher_details' component={AllTeachers} exact />
-          <PrivateRoute
-            path='/non-teaching_staff_details'
-            component={AllStaffs}
-            exact
-          />
-          <PrivateRoute
-            path='/non-teaching_staff_register'
-            component={StaffRegister}
-            exact
-          />
-          <PrivateRoute
-            path='/non-teaching_staff_salary'
-            component={StaffSalary}
-            exact
-          />
-          <PrivateRoute path='/income' component={IncomeScreen} exact />
-          <PrivateRoute path='/salary' component={ExpenseScreen} exact />
-          <PrivateRoute
-            path='/student-attendance'
-            component={StudentAttendance}
-            exact
-          />
-          <Route component={NotFound} />
-        </Switch>
-      </div>
-    </Router>
+    <ChakraProvider>
+      <Router>
+        <div>
+          <Switch>
+            <PrivateRoute path='/' component={Landing} exact />
+            <Route path='/login' component={Login} exact />
+            <PrivateRoute path='/student-register' component={StudentRegister} />
+            <PrivateRoute path='/student-fee' component={StudentFees} />
+            <PrivateRoute
+              path='/student_details'
+              component={StudentDetails}
+              exact
+            />
+            <PrivateRoute
+              path='/student_details/details/:id'
+              component={StudentDeepDetails}
+              exact
+            />
+            {/* <PrivateRoute
+              path='/student-attendance'
+              component={underConstruction}
+              exact
+            /> */}
+            <PrivateRoute
+              path='/teacher_attendance'
+              component={underConstruction}
+              exact
+            />
+            <PrivateRoute
+              path='/non-teaching_staff_attendance'
+              component={underConstruction}
+              exact
+            />
+            <PrivateRoute
+              path='/student-attendance/:class'
+              component={StudentDeepAttendance}
+              exact
+            />
+            <PrivateRoute path='/students' component={AllStudents} exact />
+            <PrivateRoute path='/admit_card' component={StudentAdmitCard} exact />
+            <PrivateRoute
+              path='/admit_card/allstudents'
+              component={AllStudentsAdmitCard}
+              exact
+            />
+            <PrivateRoute
+              path='/admit_card/classes'
+              component={StudentClassAdmitCard}
+              exact
+            />
+            <PrivateRoute
+              path='/admit_card/classes/:id'
+              component={StudentClassAdmitCardDeep}
+              exact
+            />
+            <PrivateRoute
+              path='/admit_card/student'
+              component={ParticularStudentAdmitCard}
+              exact
+            />
+            <PrivateRoute
+              path='/teacher_salary'
+              component={TeacherSalary}
+              exact
+            />
+            <PrivateRoute
+              path='/teacher_register'
+              component={TeacherRegister}
+              exact
+            />
+            <PrivateRoute path='/teacher_details' component={AllTeachers} exact />
+            <PrivateRoute
+              path='/non-teaching_staff_details'
+              component={AllStaffs}
+              exact
+            />
+            <PrivateRoute
+              path='/non-teaching_staff_register'
+              component={StaffRegister}
+              exact
+            />
+            <PrivateRoute
+              path='/non-teaching_staff_salary'
+              component={StaffSalary}
+              exact
+            />
+            <PrivateRoute path='/income' component={IncomeScreen} exact />
+            <PrivateRoute path='/salary' component={ExpenseScreen} exact />
+            <PrivateRoute
+              path='/student-attendance'
+              component={StudentAttendance}
+              exact
+            />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+      </Router>
+    </ChakraProvider>
   )
 }
 
