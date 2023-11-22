@@ -1,13 +1,17 @@
 @tailwind base;
 @tailwind components;
+
+.chakra-accordion__button.css-uttm9k {
+  padding-left: 0px;
+}
+
 @tailwind utilities;
 
-*{
-  margin:0;
-  padding:0px;
+* {
+  margin: 0;
+  padding: 0px;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 1000;
+  font-family: "Montserrat", sans-serif;
 }
 /* .disable{
   margin-top:10px ;
@@ -20,21 +24,17 @@
   max-width: 30%;
   display: block;
 } */
-          /* // style={{ marginTop: '10px', maxWidth: '30%', display: 'block' }} */
+/* // style={{ marginTop: '10px', maxWidth: '30%', display: 'block' }} */
 
-          .notFound{
-          
-            height: 100vh;
-            /* border: 1px solid red; */
-            overflow: hidden;
-            width: 100%;
-         
-           
-          }
-          .notFound img{
-            /* border: 1px solid red; */
-          height: 100vh;
-         margin: auto;
-         display: block;
-
-          }
+.notFound {
+  height: 100vh;
+  /* border: 1px solid red; */
+  overflow: hidden;
+  width: 100%;
+}
+.notFound img {
+  /* border: 1px solid red; */
+  height: 100vh;
+  margin: auto;
+  display: block;
+}
