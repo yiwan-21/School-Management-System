@@ -12,12 +12,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background:rgb(151, 145, 145);
+  background: rgb(151, 145, 145);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-cursor: pointer;
+  cursor: pointer;
 }
 
 * {
@@ -61,14 +61,8 @@ body {
 }
 
 .containers {
-  display: grid;
   height: 100vh;
-  grid-template-columns: 0.8fr 1fr 1fr 1fr;
-  grid-template-rows: 0.2fr 3fr;
-  grid-template-areas:
-    "sidebar nav nav nav"
-    "sidebar main main main"
-    "sidebar footer footer footer";
+  width: 100%;
 }
 
 @media only screen and (max-width: 978px) {

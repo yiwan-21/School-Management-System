@@ -1,126 +1,120 @@
-import './Sidebar.css'
-import { useDispatch } from 'react-redux'
+import "./Sidebar.css";
+import { useDispatch } from "react-redux";
 
-import { logout } from '../actions/userActions'
-import { Link } from 'react-router-dom'
+import { logout } from "../actions/userActions";
+import { Link } from "react-router-dom";
+import {
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Box,
+} from "@chakra-ui/react";
+import { routes } from "../constants/routeConstant";
+import logo from "../logo-scholly.png";
+
 const Sidebar = ({ sidebarOpen, closeSidebar }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const logoutHandler = () => {
-    console.log('hello')
-    dispatch(logout())
+    dispatch(logout());
+  };
+
+  function renderRoutes() {
+    return routes.map((route, index) => {
+      if (route.collapse) {
+        return (
+          <AccordionItem className="py-2">
+            <h2>
+              <AccordionButton>
+                <Box as="span" flex="1" textAlign="left">
+                  <div key={index} className="text-sm font-bold">
+                    <i className={`mx-3 ${route.icon}`} aria-hidden="true"></i>
+                    {route.name}
+                  </div>
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel>
+              {route.paths.map((sub, index) => (
+                <Link className="linked" to={sub.path} key={index}>
+                  <div
+                    className="ml-2 py-3 px-2 text-sm duration-200 hover:bg-gray-100 cursor-pointer font-bold"
+                    onClick={onClose}
+                  >
+                    <i className={`${sub.icon} mr-3`} aria-hidden="true"></i>
+                    {sub.name}
+                  </div>
+                </Link>
+              ))}
+            </AccordionPanel>
+          </AccordionItem>
+        );
+      } else {
+        return (
+          <Link
+            to={route.path}
+            key={index}
+            className="linked py-3 text-sm duration-200 hover:bg-gray-100 cursor-pointer font-bold flex items-center"
+            onClick={onClose}
+          >
+            <i className={`mx-3 ${route.icon}`} aria-hidden="true"></i>
+            {route.name === "Log Out" ? (
+              <div className="" onClick={() => logoutHandler()}>
+                {route.name}
+              </div>
+            ) : (
+              <div to={route.path}>{route.name}</div>
+            )}
+          </Link>
+        );
+      }
+    });
   }
+
   return (
-    <div className={sidebarOpen ? 'sidebar_responsive' : ''} id='sidebar'>
-      <div className='sidebar__title'>
-        <div className='sidebar__img'>
-      
-        </div>
-        <i
-          onClick={() => closeSidebar()}
-          className='fa fa-times'
-          id='sidebarIcon'
-          aria-hidden='true'
-        ></i>
-      </div>
-
-      <div className='sidebar__menu'>
-        <div className='sidebar__link active_menu_link'>
-          <i className='fa fa-home'></i>
-          <Link className='linked' to='/'>
-            Dashboard
-          </Link>
-        </div>
-        <h2>Students Section</h2>
-        <div className='sidebar__link'>
-          <i className='fa fa-male' aria-hidden='true'></i>
-          <Link className='linked' to='/student-register'>
-            Student Registration
-          </Link>
-        </div>
-        <div className='sidebar__link'>
-          <i className='fa fa-coins'></i>
-          <Link className='linked' to='/student-fee'>
-            Student Fees
-          </Link>
-        </div>
-        <div className='sidebar__link'>
-          <i className='fas fa-info'></i>
-          <Link className='linked' to='/student_details'>
-            Student Details
-          </Link>
-        </div>
-        <div className='sidebar__link'>
-          <i className='fas fa-school'></i>
-          <Link className='linked' to='/student-attendance'>
-            Student Attendance
-          </Link>
-        </div>
-        <div className='sidebar__link'>
-          <i className='far fa-sticky-note'></i>
-          <Link className='linked' to='/admit_card'>
-            Admit Card
-          </Link>
-        </div>
-        <h2>Teachers Section</h2>
-        <div className='sidebar__link'>
-          <i className='fa fa-male'></i>
-          <Link className='linked' to='/teacher_register'>
-            Teacher Registration
-          </Link>
-        </div>
-        <div className='sidebar__link'>
-          <i className='fa fa-coins'></i>
-          <Link className='linked' to='/teacher_salary'>
-            Teacher Salary
-          </Link>
-        </div>
-        <div className='sidebar__link'>
-          <i className='fas fa-info'></i>
-          <Link className='linked' to='/teacher_details'>
-            Teacher Details
-          </Link>
-        </div>
-        <div className='sidebar__link'>
-          <i className='fas fa-school'></i>
-          <Link className='linked' to='teacher_attendance'>
-            Teacher Attendance
-          </Link>
-        </div>
-        <h2>Non-Teaching Staffs</h2>
-        <div className='sidebar__link'>
-          <i className='fa fa-coins'></i>
-          <Link className='linked' to='/non-teaching_staff_register'>
-            Registration
-          </Link>
-        </div>
-        <div className='sidebar__link'>
-          <i className='fa fa-coins'></i>
-          <Link className='linked' to='non-teaching_staff_salary'>
-            Salary
-          </Link>
-        </div>
-        <div className='sidebar__link'>
-          <i className='fas fa-info'></i>
-          <Link className='linked' to='/non-teaching_staff_details'>
-            Details
-          </Link>
-        </div>
-        <div className='sidebar__link'>
-          <i className='fas fa-school'></i>
-          <Link className='linked' to='/non-teaching_staff_attendance'>
-            Attendance
-          </Link>
-        </div>
-        <div className='sidebar__logout'>
-          <i className='fa fa-power-off'></i>
-          <Link className='linked' onClick={logoutHandler} to='/login'>
-            Log out
-          </Link>
-        </div>
-      </div>
+    <div className="">
+      <i
+        className="fa fa-bars cursor-pointer fa-lg"
+        aria-hidden="true"
+        onClick={onOpen}
+      ></i>
+      <Drawer placement={"left"} onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader
+            borderBottomWidth="1px"
+            className="flex justify-between"
+          >
+            <div className="flex items-center ml-2">
+              <img src={logo} alt="logo" className="w-9 h-9 mr-4" />
+              <h1 className="font-bold text-xl">Scholly</h1>
+            </div>
+            <i
+              className="fa fa-times cursor-pointer fa-sm"
+              aria-hidden="true"
+              onClick={onClose}
+            ></i>
+          </DrawerHeader>
+          <DrawerBody>
+            <Accordion allowToggle>{renderRoutes()}</Accordion>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
