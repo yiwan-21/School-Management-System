@@ -1,5 +1,5 @@
 main {
-  background: #f3f4f6;
+  background: #ffffff;
   grid-area: main;
   position: relative;
   overflow-y: auto;
@@ -7,12 +7,36 @@ main {
 .card-handler {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
+  gap: 30px;
+  height:500px;
+  background: #ffffff;
+  position: relative;
+  grid-template-rows: 1fr 1fr ;
+  overflow: hidden;
+  border-radius: 5px;
+  width: 1000px;
+}
+.card-handler h1{
+  color:white;
+  font-family: "Inter var", sans-serif;
+  font-size: 1.2rem;
+}
 
-  /* grid-template-rows: 1fr  2fr; */
+.card-handler p{
+  color:white;
+  font-size: 1rem;
+}
+.card-handler .icon{
+  color:white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
 .main__container {
-  padding: 20px 35px;
+  padding: 30px 60px;
+  display: flex;
+  justify-content: center; /* Center horizontally */
 }
 
 .main__title {

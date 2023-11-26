@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import axios from "axios";
 import "./Main.css";
+import "./DashboardCard.css";
 import DashboardCard from "./DashboardCard";
 import Footer from "./Footer";
+import { Link } from 'react-router-dom'
+import { routes } from "../constants/dashboardConstant";
+
 const Main = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState();
@@ -31,7 +35,7 @@ const Main = () => {
    {}>} */}
             {/* {console.log('dfsdf')} */}
             {/* {loading ? <Loader/>: } */}
-            {items.map((item) => (
+            {/* {items.map((item) => (
               // <div key={item._id}>
               <DashboardCard
                 key={item?._id}
@@ -41,8 +45,17 @@ const Main = () => {
                 image={item?.image}
               />
               // </div>
-            ))}
-          </div>
+            ))} */}
+              {routes.map((route, index)=>(
+                <Link key={index} to={route.path} className="route-link">
+                  <div className="card1 font-bold bg-blue/20 -bottom-10 hover:bottom-0 opacity-100 hover:opacity-80 transition-all duration-300">
+                    <h1>{route.title}</h1>
+                    <p>{route.number}</p>
+                    <div className="icon" style={{fontSize: '60px'}}>{route.icon}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
         )}
       </div>
     </main>
