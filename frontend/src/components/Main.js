@@ -48,9 +48,9 @@ const Main = () => {
             ))} */}
               {routes.map((route, index)=>(
                 <Link key={index} to={route.path} className="route-link">
-                  <div className="card1 font-bold bg-blue/20 -bottom-10 hover:bottom-0 opacity-100 hover:opacity-80 transition-all duration-300">
+                  <div className="card1 font-bold shadow-lg hover:scale-105 transition-all duration-200">
                     <h1>{route.title}</h1>
-                    <p>{route.number}</p>
+                    <p className="font-bold">{route.number}</p>
                     <div className="icon" style={{fontSize: '60px'}}>{route.icon}</div>
                   </div>
                 </Link>

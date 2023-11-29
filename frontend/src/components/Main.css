@@ -8,7 +8,7 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 30px;
-  height:500px;
+  height:600px;
   background: #ffffff;
   position: relative;
   grid-template-rows: 1fr 1fr ;
@@ -17,17 +17,18 @@ main {
   width: 1000px;
 }
 .card-handler h1{
-  color:white;
+  color:#508CF3;
   font-family: "Inter var", sans-serif;
   font-size: 1.2rem;
 }
 
 .card-handler p{
-  color:white;
+  color:#8950F3;
   font-size: 1rem;
+  font-weight: bold;
 }
 .card-handler .icon{
-  color:white;
+  color:#0760f9;
   display: flex;
   justify-content: center;
   align-items: center;

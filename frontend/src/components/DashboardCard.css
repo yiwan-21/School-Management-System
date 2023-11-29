@@ -1,6 +1,6 @@
 .card1{
    height:200px;
-   background: #508CF3;
+   background: #ffffff;
    padding:5px;
    position: relative;
    display: grid;
@@ -10,7 +10,7 @@
    border-radius: 5px;
 }
 .card1 h1{
-   color:white;
+   color:#508CF3;
    font-family: "Inter var", sans-serif;
    font-size: 1.2rem;
    /* text-transform: uppercase; */
