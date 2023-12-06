@@ -21,7 +21,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { routes } from "../constants/routeConstant";
-import logo from "../logo-scholly.png";
+import logo from "../images/logo-scholly.png";
 
 const Sidebar = ({ sidebarOpen, closeSidebar }) => {
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
               {route.paths.map((sub, index) => (
                 <Link className="linked" to={sub.path} key={index}>
                   <div
-                    className="ml-2 py-3 px-2 text-sm duration-200 hover:bg-gray-100 cursor-pointer font-bold"
+                    className="ml-2 py-3 px-2 text-sm duration-200 hover:bg-gray-100 cursor-pointer font-bold outline-none"
                     onClick={onClose}
                   >
                     <i className={`${sub.icon} mr-3`} aria-hidden="true"></i>
@@ -67,7 +67,7 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
           <Link
             to={route.path}
             key={index}
-            className="linked py-3 text-sm duration-200 hover:bg-gray-100 cursor-pointer font-bold flex items-center"
+            className="linked py-3 text-sm duration-200 hover:bg-gray-100 cursor-pointer font-bold flex items-center outline-none"
             onClick={onClose}
           >
             <i className={`mx-3 ${route.icon}`} aria-hidden="true"></i>
