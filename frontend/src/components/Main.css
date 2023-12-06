@@ -8,31 +8,29 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 30px;
-  height:600px;
-  background: #ffffff;
+  height: 475px;
   position: relative;
-  grid-template-rows: 1fr 1fr ;
+  grid-template-rows: 1fr 1fr;
   overflow: hidden;
   border-radius: 5px;
   width: 1000px;
 }
-.card-handler h1{
-  color:#508CF3;
+.card-handler h1 {
+  /* color: #508cf3; */
   font-family: "Inter var", sans-serif;
   font-size: 1.2rem;
 }
 
-.card-handler p{
-  color:#8950F3;
+.card-handler p {
+  color: #8950f3;
   font-size: 1rem;
   font-weight: bold;
 }
-.card-handler .icon{
-  color:#0760f9;
+.card-handler .icon {
+  /* color: #0760f9; */
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 .main__container {
   padding: 30px 60px;

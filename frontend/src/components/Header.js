@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import logo from "../logo-scholly.png";
+import logo from "../images/logo-scholly.png";
 
 const Navbar = ({ sidebarOpen, openSidebar }) => {
   const userLogin = useSelector((state) => state.userLogin);

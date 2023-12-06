@@ -5,7 +5,7 @@ import "./Main.css";
 import "./DashboardCard.css";
 import DashboardCard from "./DashboardCard";
 import Footer from "./Footer";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { routes } from "../constants/dashboardConstant";
 
 const Main = () => {
@@ -25,8 +25,8 @@ const Main = () => {
   }, []);
 
   return (
-    <main>
-      <div className="main__container">
+    <main className="bg-bg-school bg-cover bg-no-repeat bg-center w-full h-full">
+      <div className="main__container w-full h-full bg-gray-400 bg-opacity-75 items-center justify-center">
         {loading ? (
           <Loader />
         ) : (
@@ -46,16 +46,12 @@ const Main = () => {
               />
               // </div>
             ))} */}
-              {routes.map((route, index)=>(
-                <Link key={index} to={route.path} className="route-link">
-                  <div className="card1 font-bold shadow-lg hover:scale-105 transition-all duration-200">
-                    <h1>{route.title}</h1>
-                    <p className="font-bold">{route.number}</p>
-                    <div className="icon" style={{fontSize: '60px'}}>{route.icon}</div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            {routes.map((route, index) => (
+              <Link key={index} to={route.path} className="route-link">
+                <DashboardCard route={route} />
+              </Link>
+            ))}
+          </div>
         )}
       </div>
     </main>
