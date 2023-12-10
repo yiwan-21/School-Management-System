@@ -8,12 +8,16 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 30px;
-  height: 475px;
+  height: 60vh;
   position: relative;
   grid-template-rows: 1fr 1fr;
   overflow: hidden;
   border-radius: 5px;
-  width: 1000px;
+  width: 80%;
+  max-width: 1000px;
+  margin: 20px auto; /* Center the element horizontally */
+  padding: 20px;
+  max-height: 500px;
 }
 .card-handler h1 {
   /* color: #508cf3; */
