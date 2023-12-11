@@ -26,7 +26,7 @@ const Main = () => {
 
   return (
     <main className="bg-bg-school bg-cover bg-no-repeat bg-center w-full h-full">
-      <div className="main__container w-full h-full bg-gray-400 bg-opacity-75 items-center justify-center">
+      <div className="main__container min-w-full min-h-full pt-[70px] bg-gray-400 bg-opacity-75 items-center justify-center">
         {loading ? (
           <Loader />
         ) : (
