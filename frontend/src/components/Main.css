@@ -7,8 +7,7 @@ main {
 .card-handler {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 30px;
-  height: 60vh;
+  gap: 3vw;
   position: relative;
   grid-template-rows: 1fr 1fr;
   overflow: hidden;
@@ -16,8 +15,7 @@ main {
   width: 80%;
   max-width: 1000px;
   margin: 20px auto; /* Center the element horizontally */
-  padding: 20px;
-  max-height: 500px;
+  padding: 2vw;
 }
 .card-handler h1 {
   /* color: #508cf3; */
