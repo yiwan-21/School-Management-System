@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import axios from "axios";
 import "./Main.css";
+import "./DashboardCard.css";
 import DashboardCard from "./DashboardCard";
 import Footer from "./Footer";
+import { Link } from "react-router-dom";
+import { routes } from "../constants/dashboardConstant";
+
 const Main = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState();
@@ -21,8 +25,8 @@ const Main = () => {
   }, []);
 
   return (
-    <main>
-      <div className="main__container">
+    <main className="bg-bg-school bg-cover bg-no-repeat bg-center w-full h-full">
+      <div className="main__container w-full h-full bg-gray-400 bg-opacity-75 items-center justify-center">
         {loading ? (
           <Loader />
         ) : (
@@ -31,7 +35,7 @@ const Main = () => {
    {}>} */}
             {/* {console.log('dfsdf')} */}
             {/* {loading ? <Loader/>: } */}
-            {items.map((item) => (
+            {/* {items.map((item) => (
               // <div key={item._id}>
               <DashboardCard
                 key={item?._id}
@@ -41,6 +45,11 @@ const Main = () => {
                 image={item?.image}
               />
               // </div>
+            ))} */}
+            {routes.map((route, index) => (
+              <Link key={index} to={route.path} className="route-link">
+                <DashboardCard route={route} />
+              </Link>
             ))}
           </div>
         )}
