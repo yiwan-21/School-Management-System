@@ -6,7 +6,7 @@ import "./DashboardCard.css";
 import DashboardCard from "./DashboardCard";
 import Footer from "./Footer";
 import { Link } from "react-router-dom";
-import { routes } from "../constants/dashboardConstant";
+import { routes } from "../constants/dashboardConstants";
 
 const Main = () => {
   const [items, setItems] = useState([]);
