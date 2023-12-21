@@ -25,7 +25,7 @@ const StudentDetails = () => {
       <input
         type="text"
         style={{ borderRadius: '10px', border: '1px solid grey' }}
-        placeholder="Search for student..."
+        placeholder="Search for class..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
