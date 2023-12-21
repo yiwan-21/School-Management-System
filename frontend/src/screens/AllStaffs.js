@@ -67,7 +67,7 @@ const AllStaffs = ({}) => {
         <input
           type="text"
           style={{ borderRadius: "10px", border: "1px solid grey" }}
-          placeholder="Search for satff..."
+          placeholder="Search for staff..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
