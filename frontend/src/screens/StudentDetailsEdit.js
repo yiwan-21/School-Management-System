@@ -3,54 +3,56 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getStaffDetails, Update } from "../actions/staffActions";
+import { getStudentDetails, Update } from "../actions/studentActions";
 import { Button, Input, Select } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
-const StaffDetailsEdit = ({ match }) => {
+const StudentDetailsEdit = ({ match }) => {
   const history = useHistory();
   const matchid = match.params.id;
 
   const dispatch = useDispatch();
-  const staffDetails = useSelector((state) => state.staffDetails);
-  const { loading, staff, error } = staffDetails;
+  const studentDetails = useSelector((state) => state.studentDetails);
+  const { loading, student, error } = studentDetails;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [qualification, setQualification] = useState("");
-  const [work, setWork] = useState("");
-  const [phoneno, setPhoneno] = useState("");
-  const [previous_school, setPreviousSchool] = useState("");
-  const [age, setAge] = useState("");
-  const [estimated_salary, setEstimatedSalary] = useState("");
   const [gender, setGender] = useState("");
+  const [classname, setClassname] = useState("");
+  const [phoneno, setPhoneno] = useState("");
+  const [parentname, setParentname] = useState("");
+  const [age, setAge] = useState("");
+  const [registrationfees, setRegistrationfees] = useState("");
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(false);
   const [valid, setValid] = useState(false);
   const [time, setTime] = useState(false);
 
-  const staffUpdate = useSelector((state) => state.staffUpdate);
-  const { loading: updateLoading, success, error: updateError } = staffUpdate;
+  const studentUpdate = useSelector((state) => state.studentUpdate);
+  const { loading: updateLoading, success, error: updateError } = studentUpdate;
 
   useEffect(() => {
-    dispatch(getStaffDetails(matchid));
+    // Fetch student details
+    dispatch(getStudentDetails(matchid));
   }, [dispatch, matchid]);
 
+  // Update state when student details change
   useEffect(() => {
-    if (staff && staff._id) {
-      setName(staff.staff_name || "");
-      setEmail(staff.email || "");
-      setQualification(staff.qualification || "");
-      setAddress(staff.address || "");
-      setWork(staff.work || "");
-      setPhoneno(staff.contact_no || "");
-      setPreviousSchool(staff.previous_school || "");
-      setAge(staff.age || "");
-      setEstimatedSalary(staff.estimated_salary || "");
-      setGender(staff.gender || "");
-      setImage(staff.image || "");
+    // Check if student details are available
+    if (student && student._id) {
+      // Populate form fields with student details
+      setName(student.student_name || "");
+      setEmail(student.email || "");
+      setAddress(student.address || "");
+      setGender(student.gender || "");
+      setClassname(student.classname || "");
+      setPhoneno(student.contact_no || "");
+      setParentname(student.parents_name || "");
+      setAge(student.age || "");
+      setRegistrationfees(student.registration_fees || "");
+      setImage(student.image || "");
     }
-  }, [staff]);
+  }, [student]);
 
   const uploadFileHandler = async (e) => {
     const { data: CLOUDINARY_URL } = await axios.get("/api/config/cloudinary");
@@ -96,17 +98,16 @@ const StaffDetailsEdit = ({ match }) => {
     await dispatch(
       Update(
         matchid,
-        image,
         name.trim(),
-        qualification,
-        email,
+        classname,
         address,
-        work,
+        parentname,
         phoneno,
-        previous_school,
+        gender,
         age,
-        estimated_salary,
-        gender
+        email,
+        registrationfees,
+        image
       )
     );
     history.goBack();
@@ -121,14 +122,18 @@ const StaffDetailsEdit = ({ match }) => {
         <Loader />
       ) : (
         <div className="outer-layout">
-          <h1>Edit Staff Details</h1>
+          <h1>Edit Student Details</h1>
           <form onSubmit={handleUpdate}>
             <div className="form-inner">
               <div className="justify-center flex form-control2 ">
                 <div className="image-upload-container text-white font-bold">
                   {image ? (
                     <div className="image-container">
-                      <img src={image} alt="Staff" className="student-image" />
+                      <img
+                        src={image}
+                        alt="Student"
+                        className="student-image"
+                      />
                     </div>
                   ) : (
                     <div className="placeholder-text">No Image Uploaded</div>
@@ -184,26 +189,6 @@ const StaffDetailsEdit = ({ match }) => {
                 />
               </div>
               <div className="form-control">
-                <label htmlFor="name">Previous School</label>
-                <Input
-                  placeholder="Previous School"
-                  type="text"
-                  value={previous_school}
-                  onChange={(e) => setPreviousSchool(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-control">
-                <label htmlFor="name">Work</label>
-                <Input
-                  placeholder="Work"
-                  type="text"
-                  value={work}
-                  onChange={(e) => setWork(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-control">
                 <label htmlFor="name">Gender</label>
                 <Select
                   required
@@ -218,6 +203,30 @@ const StaffDetailsEdit = ({ match }) => {
                 </Select>
               </div>
               <div className="form-control">
+                <label htmlFor="name">Class</label>
+                <Select
+                  id="class"
+                  value={classname}
+                  onChange={(e) => setClassname(e.target.value)}
+                  required
+                >
+                  <option value="">Select Class</option>
+                  <option value="Nursery">Nursery</option>
+                  <option value="LKG">LKG</option>
+                  <option value="UKG">UKG</option>
+                  <option value="One">One</option>
+                  <option value="Two">Two</option>
+                  <option value="Three">Three</option>
+                  <option value="Four">Four</option>
+                  <option value="Five">Five</option>
+                  <option value="Six">Six</option>
+                  <option value="Seven">Seven</option>
+                  <option value="Eight">Eight</option>
+                  <option value="Nine">Nine</option>
+                  <option value="Ten">Ten</option>
+                </Select>
+              </div>
+              <div className="form-control">
                 <label htmlFor="name">Phone Number</label>
                 <Input
                   placeholder="Phone Number"
@@ -228,12 +237,12 @@ const StaffDetailsEdit = ({ match }) => {
                 />
               </div>
               <div className="form-control">
-                <label htmlFor="name">Qualification</label>
+                <label htmlFor="name">Parent's Name</label>
                 <Input
-                  placeholder="Qualification"
+                  placeholder="Parent's Name"
                   type="text"
-                  value={qualification}
-                  onChange={(e) => setQualification(e.target.value)}
+                  value={parentname}
+                  onChange={(e) => setParentname(e.target.value)}
                   required
                 />
               </div>
@@ -248,12 +257,12 @@ const StaffDetailsEdit = ({ match }) => {
                 />
               </div>
               <div className="form-control">
-                <label htmlFor="registration-fees">Salary </label>
+                <label htmlFor="registration-fees">Registration Fees</label>
                 <Input
-                  placeholder="Salary"
+                  placeholder="Registration Fees"
                   type="number"
-                  value={estimated_salary}
-                  onChange={(e) => setEstimatedSalary(e.target.value)}
+                  value={registrationfees}
+                  onChange={(e) => setRegistrationfees(e.target.value)}
                   required
                 />
               </div>
@@ -271,7 +280,7 @@ const StaffDetailsEdit = ({ match }) => {
               type="submit"
               colorScheme="whatsapp"
             >
-              Update Staff
+              Update Student
             </Button>
           </form>
           {error && <Message variant="danger" message={error} />}
@@ -281,4 +290,4 @@ const StaffDetailsEdit = ({ match }) => {
   );
 };
 
-export default StaffDetailsEdit;
+export default StudentDetailsEdit;
