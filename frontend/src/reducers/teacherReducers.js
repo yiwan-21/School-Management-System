@@ -14,63 +14,98 @@ import {
   TEACHER_SALARY_REQUEST,
   TEACHER_SALARY_RESET,
   TEACHER_SALARY_SUCCESS,
-} from '../constants/teacherConstants'
+  TEACHER_SEARCH_FAIL,
+  TEACHER_SEARCH_REQUEST,
+  TEACHER_SEARCH_SUCCESS,
+  TEACHER_UPDATE_FAIL,
+  TEACHER_UPDATE_REQUEST,
+  TEACHER_UPDATE_SUCCESS,
+} from "../constants/teacherConstants";
 
 export const teacherSalaryReducer = (state = {}, action) => {
   switch (action.type) {
     case TEACHER_SALARY_REQUEST:
-      return { loading: true }
+      return { loading: true };
     case TEACHER_SALARY_SUCCESS:
-      return { loading: false, success: action.payload }
+      return { loading: false, success: action.payload };
     case TEACHER_SALARY_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     case TEACHER_SALARY_RESET:
-      return {}
+      return {};
     default:
-      return state
+      return state;
   }
-}
+};
+
+//following displays teacher details
+export const teacherDetailsReducer = (state = { teacher: {} }, action) => {
+  switch (action.type) {
+    case TEACHER_SEARCH_REQUEST:
+      return { loading: true, teacher: {} };
+    case TEACHER_SEARCH_SUCCESS:
+      return { loading: false, teacher: action.payload };
+    case TEACHER_SEARCH_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+//FOLLOWING IS FOR UPDATE THE TEACHER DETAILS
+
+export const teacherUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case TEACHER_UPDATE_REQUEST:
+      return { loading: true };
+    case TEACHER_UPDATE_SUCCESS:
+      return { loading: false, success: action.payload };
+    case TEACHER_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 
 //TEACHER REGISTER REDUCER
 export const teacherRegisterReducer = (state = {}, action) => {
   switch (action.type) {
     case TEACHER_REGISTER_REQUEST:
-      return { loading: true }
+      return { loading: true };
     case TEACHER_REGISTER_SUCCESS:
-      return { loading: false, success: action.payload }
+      return { loading: false, success: action.payload };
     case TEACHER_REGISTER_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     case TEACHER_REGISTER_RESET:
-      return {}
+      return {};
     default:
-      return state
+      return state;
   }
-}
+};
 
 export const teacherDeleteReducer = (state = {}, action) => {
   switch (action.type) {
     case TEACHER_DELETE_REQUEST:
-      return { loading: true }
+      return { loading: true };
     case TEACHER_DELETE_SUCCESS:
-      return { loading: false, success: action.payload }
+      return { loading: false, success: action.payload };
     case TEACHER_DELETE_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     default:
-      return state
+      return state;
   }
-}
+};
 
 export const teacherListReducer = (state = { teachers: [] }, action) => {
   switch (action.type) {
     case TEACHER_LIST_REQUEST:
-      return { loading: true, teachers: [] }
+      return { loading: true, teachers: [] };
     case TEACHER_LIST_SUCCESS:
-      return { loading: false, teachers: action.payload }
+      return { loading: false, teachers: action.payload };
     case TEACHER_LIST_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     case TEACHER_LIST_RESET:
-      return {}
+      return {};
     default:
-      return state
+      return state;
   }
-}
+};
