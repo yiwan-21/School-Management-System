@@ -10,6 +10,7 @@ import StudentDetails from "./screens/StudentDetails";
 import StudentDeepDetails from "./screens/StudentDeepDetails";
 import StudentAttendance from "./screens/StudentAttendance";
 import AllStudents from "./screens/AllStudents";
+import StudentDetailsEdit from "./screens/StudentDetailsEdit";
 import StudentDeepAttendance from "./screens/StudentDeepAttendance";
 import StudentAdmitCard from "./screens/StudentAdmitCard";
 import AllStudentsAdmitCard from "./screens/AllStudentsAdmitCard";
@@ -24,7 +25,8 @@ import AllStaffs from "./screens/AllStaffs";
 import StaffRegister from "./screens/StaffRegister";
 import IncomeScreen from "./screens/IncomeScreen";
 import NotFound from "./screens/NotFound";
-
+import TeacherDetailsEdit from "./screens/TeacherDetailsEdit";
+import StafftDetailsEdit from "./screens/StaffDetailsEdit";
 import ExpenseScreen from "./screens/ExpenseScreen";
 import underConstruction from "./components/underConstruction";
 import { studentAttendances } from "./actions/studentActions";
@@ -55,6 +57,11 @@ const App = () => {
             <PrivateRoute
               path="/student_details/details/:id"
               component={StudentDeepDetails}
+              exact
+            />
+            <PrivateRoute
+              path="/student_details/details/edit/:id"
+              component={StudentDetailsEdit}
               exact
             />
             {/* <PrivateRoute
@@ -119,8 +126,18 @@ const App = () => {
               exact
             />
             <PrivateRoute
+              path="/teacher_details/details/edit/:id"
+              component={TeacherDetailsEdit}
+              exact
+            />
+            <PrivateRoute
               path="/non-teaching_staff_details"
               component={AllStaffs}
+              exact
+            />
+            <PrivateRoute
+              path="/non-teaching_staff_details/details/edit/:id"
+              component={StafftDetailsEdit}
               exact
             />
             <PrivateRoute
