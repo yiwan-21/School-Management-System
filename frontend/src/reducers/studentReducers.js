@@ -12,6 +12,9 @@ import {
   STUDENT_REGISTER_REQUEST,
   STUDENT_REGISTER_SUCCESS,
   STUDENT_REGISTER_FAIL,
+  STUDENT_UPDATE_REQUEST,
+  STUDENT_UPDATE_SUCCESS,
+  STUDENT_UPDATE_FAIL,
   STUDENT_DELETE_REQUEST,
   STUDENT_DELETE_SUCCESS,
   STUDENT_DELETE_FAIL,
@@ -26,108 +29,139 @@ import {
   STUDENT_FEES_SUCCESS,
   STUDENT_FEES_FAIL,
   STUDENT_FEES_RESET,
-} from '../constants/studentConstants'
+} from "../constants/studentConstants";
 //following displays list of all students
 export const studentListReducer = (state = { students: [] }, action) => {
   switch (action.type) {
     case STUDENT_LIST_REQUEST:
-      return { loading: true, students: [] }
+      return { loading: true, students: [] };
     case STUDENT_LIST_SUCCESS:
-      return { loading: false, students: action.payload }
+      return { loading: false, students: action.payload };
     case STUDENT_LIST_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     case STUDENT_LIST_CLEAR:
-      return {}
+      return {};
     default:
-      return state
+      return state;
   }
-}
+};
+
+//following displays student details
+export const studentDetailsReducer = (state = { student: {} }, action) => {
+  switch (action.type) {
+    case STUDENT_SEARCH_REQUEST:
+      return { loading: true, student: {} };
+    case STUDENT_SEARCH_SUCCESS:
+      return { loading: false, student: action.payload };
+    case STUDENT_SEARCH_FAIL:
+      return { loading: false, error: action.payload };
+    case STUDENT_SEARCH_CLEAR:
+      return {};
+    default:
+      return state;
+  }
+};
 //following displays list of all students belonging to the particular class
 export const studentClassListReducer = (state = { students: [] }, action) => {
   switch (action.type) {
     case STUDENT_CLASS_LIST_REQUEST:
-      return { loading: true, students: [] }
+      return { loading: true, students: [] };
     case STUDENT_CLASS_LIST_SUCCESS:
-      return { loading: false, students: action.payload }
+      return { loading: false, students: action.payload };
     case STUDENT_CLASS_LIST_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     case STUDENT_CLASS_LIST_CLEAR:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     default:
-      return state
+      return state;
   }
-}
+};
 
 //following is for searching the students for fees submission
 export const studentSearchReducer = (state = {}, action) => {
   switch (action.type) {
     case STUDENT_SEARCH_REQUEST:
-      return { loading: true, student: {} }
+      return { loading: true, student: {} };
     case STUDENT_SEARCH_SUCCESS:
-      return { loading: false, student: action.payload }
+      return { loading: false, student: action.payload };
     case STUDENT_SEARCH_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     case STUDENT_SEARCH_CLEAR:
-      return {}
+      return {};
     default:
-      return state
+      return state;
   }
-}
+};
 
 //FOLLOWING IS FOR REGISTERING THE STUDENT
 
 export const studentRegisterReducer = (state = {}, action) => {
   switch (action.type) {
     case STUDENT_REGISTER_REQUEST:
-      return { loading: true }
+      return { loading: true };
     case STUDENT_REGISTER_SUCCESS:
-      return { loading: false, success: action.payload }
+      return { loading: false, success: action.payload };
     case STUDENT_REGISTER_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     default:
-      return state
+      return state;
   }
-}
+};
+
+//FOLLOWING IS FOR UPDATE THE STUDENT DETAILS
+
+export const studentUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case STUDENT_UPDATE_REQUEST:
+      return { loading: true };
+    case STUDENT_UPDATE_SUCCESS:
+      return { loading: false, success: action.payload };
+    case STUDENT_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 
 export const studentDeleteReducer = (state = {}, action) => {
   switch (action.type) {
     case STUDENT_DELETE_REQUEST:
-      return { loading: true }
+      return { loading: true };
     case STUDENT_DELETE_SUCCESS:
-      return { loading: false, success: action.payload }
+      return { loading: false, success: action.payload };
     case STUDENT_DELETE_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     default:
-      return state
+      return state;
   }
-}
+};
 export const studentAttendanceReducer = (state = { students: [] }, action) => {
   switch (action.type) {
     case STUDENT_ATTENDANCE_REQUEST:
-      return { loading: true }
+      return { loading: true };
     case STUDENT_ATTENDANCE_SUCCESS:
-      return { loading: false, students: action.payload }
+      return { loading: false, students: action.payload };
     case STUDENT_ATTENDANCE_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     case STUDENT_ATTENDANCE_RESET:
-      return {}
+      return {};
     default:
-      return state
+      return state;
   }
-}
+};
 
 //STUDENT FEES REDUCER
 export const studentFeesReducer = (state = {}, action) => {
   switch (action.type) {
     case STUDENT_FEES_REQUEST:
-      return { loading: true }
+      return { loading: true };
     case STUDENT_FEES_SUCCESS:
-      return { loading: false, success: action.payload }
+      return { loading: false, success: action.payload };
     case STUDENT_FEES_FAIL:
-      return { loading: false, error: action.payload }
+      return { loading: false, error: action.payload };
     case STUDENT_FEES_RESET:
-      return {}
+      return {};
     default:
-      return state
+      return state;
   }
-}
+};
