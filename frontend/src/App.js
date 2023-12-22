@@ -32,17 +32,14 @@ import underConstruction from "./components/underConstruction";
 import { studentAttendances } from "./actions/studentActions";
 import PrivateRoute from "../src/utils/PrivateRoute";
 import { ChakraProvider } from "@chakra-ui/react";
-import Navbar from "./components/Header";
-// import ExpenseScreen from './screens/ExpenseScreen'
 
 const App = () => {
   return (
     <ChakraProvider>
       <Router>
         <div>
-          <Route path="/login" component={Login} exact />
-          <Navbar />
           <Switch>
+            <Route path="/login" component={Login} exact />
             <PrivateRoute path="/" component={Landing} exact />
             <PrivateRoute
               path="/student-register"

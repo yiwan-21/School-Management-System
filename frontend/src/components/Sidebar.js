@@ -68,16 +68,11 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
             to={route.path}
             key={index}
             className="linked py-3 text-sm duration-200 hover:bg-gray-100 cursor-pointer font-bold flex items-center outline-none"
-            onClick={onClose}
+            onClick={route.name === "Log Out" ? () => logoutHandler() : onClose}
           >
             <i className={`mx-3 ${route.icon}`} aria-hidden="true"></i>
-            {route.name === "Log Out" ? (
-              <div className="" onClick={() => logoutHandler()}>
-                {route.name}
-              </div>
-            ) : (
-              <div to={route.path}>{route.name}</div>
-            )}
+
+            <div to={route.path}>{route.name}</div>
           </Link>
         );
       }
