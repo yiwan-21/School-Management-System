@@ -1,16 +1,24 @@
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import Navbar from "../components/Header";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isLoggedIn = localStorage.getItem('userCred')
+  const isLoggedIn = localStorage.getItem("userCred");
   return (
     <Route
       {...rest}
       render={(props) =>
-        isLoggedIn ? <Component {...props} /> : <Redirect to='/login' />
+        isLoggedIn ? (
+          <>
+            <Navbar />
+            <Component {...props} />
+          </>
+        ) : (
+          <Redirect to="/login" />
+        )
       }
     />
-  )
-}
+  );
+};
 
-export default PrivateRoute
+export default PrivateRoute;
