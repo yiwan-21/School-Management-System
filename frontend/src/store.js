@@ -26,6 +26,7 @@ import {
   teacherListReducer,
   teacherDetailsReducer,
   teacherUpdateReducer,
+  teacherAttendanceReducer,
 } from "./reducers/teacherReducers";
 import {
   staffSalaryReducer,
@@ -34,6 +35,7 @@ import {
   staffListReducer,
   staffDetailsReducer,
   staffUpdateReducer,
+  staffAttendanceReducer,
 } from "./reducers/staffReducers";
 const reducer = combineReducers({
   studentList: studentListReducer,
@@ -52,12 +54,14 @@ const reducer = combineReducers({
   teacherList: teacherListReducer,
   teacherDetails: teacherDetailsReducer,
   teacherUpdate: teacherUpdateReducer,
+  teacherAttendance: teacherAttendanceReducer,
   staffSalary: staffSalaryReducer,
   staffRegister: staffRegisterReducer,
   staffDelete: staffDeleteReducer,
   staffList: staffListReducer,
   staffDetails: staffDetailsReducer,
   staffUpdate: staffUpdateReducer,
+  staffAttendance: staffAttendanceReducer,
   allIncome: allIncomeReducer,
   allSalary: allSalaryReducer,
 });

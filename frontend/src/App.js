@@ -32,6 +32,8 @@ import underConstruction from "./components/underConstruction";
 import { studentAttendances } from "./actions/studentActions";
 import PrivateRoute from "../src/utils/PrivateRoute";
 import { ChakraProvider } from "@chakra-ui/react";
+import TeacherAttendance from "./screens/TeacherAttendance";
+import StaffAttendance from "./screens/StaffAttendance";
 
 const App = () => {
   return (
@@ -68,12 +70,12 @@ const App = () => {
             /> */}
             <PrivateRoute
               path="/teacher_attendance"
-              component={underConstruction}
+              component={TeacherAttendance}
               exact
             />
             <PrivateRoute
               path="/non-teaching_staff_attendance"
-              component={underConstruction}
+              component={StaffAttendance}
               exact
             />
             <PrivateRoute

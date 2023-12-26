@@ -20,6 +20,10 @@ import {
   TEACHER_UPDATE_FAIL,
   TEACHER_UPDATE_REQUEST,
   TEACHER_UPDATE_SUCCESS,
+  TEACHER_ATTENDANCE_FAIL,
+  TEACHER_ATTENDANCE_REQUEST,
+  TEACHER_ATTENDANCE_RESET,
+  TEACHER_ATTENDANCE_SUCCESS,
 } from "../constants/teacherConstants";
 
 export const teacherSalaryReducer = (state = {}, action) => {
@@ -104,6 +108,21 @@ export const teacherListReducer = (state = { teachers: [] }, action) => {
     case TEACHER_LIST_FAIL:
       return { loading: false, error: action.payload };
     case TEACHER_LIST_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const teacherAttendanceReducer = (state = { teachers: [] }, action) => {
+  switch (action.type) {
+    case TEACHER_ATTENDANCE_REQUEST:
+      return { loading: true };
+    case TEACHER_ATTENDANCE_SUCCESS:
+      return { loading: false, teachers: action.payload };
+    case TEACHER_ATTENDANCE_FAIL:
+      return { loading: false, error: action.payload };
+    case TEACHER_ATTENDANCE_RESET:
       return {};
     default:
       return state;
