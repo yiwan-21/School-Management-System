@@ -95,9 +95,9 @@ function StaffAttendance() {
           : <Table variant='striped'>
               <Thead className='py-2 bg-gray-50'>
                 <Tr className='text-center'>
-                  <Th>SN</Th>
+                  <Th className='w-[10%]'>SN</Th>
                   <Th>Staff</Th>
-                  <Th>Attendance</Th>
+                  <Th className='w-[20%]'>Attendance</Th>
                 </Tr>
               </Thead>
               <Tbody>

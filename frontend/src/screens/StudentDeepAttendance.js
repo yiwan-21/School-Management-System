@@ -99,10 +99,10 @@ const StudentDeepAttendance = ({ match }) => {
         <Table variant="striped">
           <Thead className="py-2 bg-gray-50">
             <Tr className="text-center">
-              <Th>SN</Th>
-              <Th>Student</Th>
-              <Th>Roll No</Th>
-              <Th>Attendance</Th>
+                <Th className='w-[10%]'>SN</Th>
+                <Th>Student</Th>
+                <Th className='w-[20%]'>Roll No</Th>
+                <Th className='w-[20%]'>Attendance</Th>
             </Tr>
           </Thead>
           <Tbody>
