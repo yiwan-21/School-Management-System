@@ -1,154 +1,174 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { classlistStudent, studentAttendances } from '../actions/studentActions'
-import { STUDENT_ATTENDANCE_RESET } from '../constants/studentConstants'
-import NepaliDate from 'nepali-date-converter'
-import Loader from '../components/Loader'
-import Message from '../components/Message'
-import axios from 'axios'
-import './Student.css'
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  classlistStudent,
+  studentAttendances,
+} from "../actions/studentActions";
+import { STUDENT_ATTENDANCE_RESET } from "../constants/studentConstants";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import axios from "axios";
+import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+
 const StudentDeepAttendance = ({ match }) => {
-  const matchid = match.params.class
-  const [studentlist, setStudentlist] = useState([])
-  const [present, setPresent] = useState({})
-  const dispatch = useDispatch()
-  const [clicked, setClicked] = useState(false)
-  const studentAttendance = useSelector((state) => state.studentAttendance)
+  const matchid = match.params.class;
+  const [attendanceList, setAttendanceList] = useState([]);
+  const [present, setPresent] = useState({});
+  const dispatch = useDispatch();
   const {
-    loading: loadingattendance,
-    students: studentsattendance,
-    error: errorattendance,
-  } = studentAttendance
-  const studentClassList = useSelector((state) => state.studentClassList)
-  const { loading, students, error } = studentClassList
+    loading: loadingAttendance,
+    students: studentsAttendance,
+    error: errorAttendance,
+  } = useSelector((state) => state.studentAttendance);
+  const {
+    loading: loadingStudents,
+    students: allStudentsData,
+    error: errorStudents,
+  } = useSelector((state) => state.studentClassList);
+  const allStudents = allStudentsData && [...allStudentsData];
 
-  const studentsfinal = students && [...students]
-
-  // for (i = 0; i < studentsfinal && studentsfinal.length; i++) {
-  //   studentsfinal[i].attendance = false
-  // }
   useEffect(() => {
     const studentsAttend = async () => {
-      const { data } = await axios.get(
-        `/api/students/class/${matchid}/attendance`
-      )
-      setStudentlist(data.students)
-      // console.log('attended once', data)
-    }
-    studentsAttend()
+      axios
+        .get(`/api/students/class/${matchid}/attendance`)
+        .then((res) => setAttendanceList(res.data.students))
+        .catch((err) => console.log(err.response.data.message));
+    };
+    studentsAttend();
     dispatch({
       type: STUDENT_ATTENDANCE_RESET,
-    })
-    dispatch(classlistStudent(matchid))
-  }, [dispatch, matchid])
-  var i = 1
+    });
+    dispatch(classlistStudent(matchid));
+  }, [dispatch, matchid]);
+  var i = 1;
   const submitAttendance = () => {
-    // console.log(studentlist)
-    console.log('students list', students)
-    dispatch(studentAttendances(matchid, students))
-  }
+    dispatch(studentAttendances(matchid, allStudentsData));
+  };
   const toggleAttendance = (id) => {
-    setPresent((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }))
-    const new_students = students.filter((datum) => datum._id === id)
-    // console.log('new_students', new_students)
-    new_students[0].present = !present[id]
-    console.log('students', students)
-  }
+    if (attendanceList.length > 0) {
+      let isPresent = attendanceList.filter((student) => student._id === id)[0]
+        .present;
+      setAttendanceList((prev) =>
+        prev.map((student) => {
+          if (student._id === id) {
+            student.present = !isPresent;
+          }
+          return student;
+        })
+      );
+      allStudents.filter((student) => student._id === id)[0].present =
+        !isPresent;
+      setPresent((prev) => ({
+        ...prev,
+        [id]: !isPresent,
+      }));
+    } else {
+      allStudents.filter((student) => student._id === id)[0].present =
+        !present[id];
+      setPresent((prev) => ({
+        ...prev,
+        [id]: !prev[id],
+      }));
+    }
+  };
 
   return (
-    <div className='container1'>
-      <div className='attendance-outer'>
-        <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>
-          Attendance for the date of{' '}
-          <span style={{ background: 'red' }}>
-            {new NepaliDate().format('YYYY-MM-D')}
-          </span>{' '}
-        </h1>
-        {studentlist.length > 0 && (
-          <h3
-            style={{ textAlign: 'center', background: 'red', padding: '3px' }}
-          >
-            Attendance already taken for today
-          </h3>
-        )}
-        {/* {console.log('final students', studentsfinal)} */}
-        {studentsattendance && (
-          <Message variant='success' message={studentsattendance.message} />
-        )}
-        {errorattendance && (
-          <Message variant='danger' message={errorattendance} />
-        )}
-        <br />
-        {loadingattendance && <Loader />}
-        {loading ? (
-          <loader />
-        ) : error ? (
-          <Message variant='danger' message={error} />
-        ) : (
-          <table style={{ margin: 'auto', background: 'green' }}>
-            <thead>
-              <tr>
-                <th>SN</th>
-                <th>Student Name</th>
-                <th>Roll No</th>
-                <th>Attendance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {studentlist.length > 0
-                ? // {  <h1></h1>}
-                  studentlist.map((student) => (
-                    <tr key={student._id} className='attendance'>
-                      <td>{i++}</td>
-                      <td>{student.student_name}</td>
-                      <td>{student.roll_no}</td>
-                      <td
-                        onClick={() => toggleAttendance(student._id)}
-                        className={student.present ? 'present' : 'absent'}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        {student.present ? 'Present' : 'Absent'}
-                      </td>
-                    </tr>
-                  ))
-                : studentsfinal &&
-                  studentsfinal.map((student) => (
-                    <tr key={student._id} className='attendance'>
-                      <td>{i++}</td>
-                      <td>{student.student_name}</td>
-                      <td>{student.roll_no}</td>
-                      <td
-                        onClick={() => toggleAttendance(student._id)}
-                        className={present[student._id] ? 'present' : 'absent'}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        {present[student._id] ? 'Present' : 'Absent'}
-                      </td>
-                    </tr>
-                  ))}
-            </tbody>
-          </table>
-        )}
-        {studentsfinal && (
-          <button
-            onClick={submitAttendance}
-            style={{ marginTop: '10px', maxWidth: '30%', display: 'block' }}
-            disabled={studentlist.length > 0}
-            className={
-              studentlist.length > 0
-                ? 'btn-register disable'
-                : 'btn-register enable'
-            }
-          >
-            Submit
-          </button>
-        )}
-      </div>
+    <div className="bg-white px-28">
+      <h1 className="text-center mt-5 mb-10 text-lg">
+        Attendance for the date of &nbsp;
+        <span className="font-semibold underline">
+          {new Date().toLocaleDateString()}
+        </span>{" "}
+      </h1>
+      {attendanceList.length > 0 && (
+        <h3 className="text-center font-semibold bg-green-300 w-min whitespace-nowrap m-auto mb-6 p-3 rounded-sm">
+          Attendance already taken for today
+        </h3>
+      )}
+      {studentsAttendance && (
+        <Message variant="success" message={studentsAttendance.message} />
+      )}
+      {errorAttendance && (
+        <Message variant="danger" message={errorAttendance.message} />
+      )}
+      <br />
+      {loadingAttendance && <Loader />}
+      {loadingStudents ? (
+        <Loader />
+      ) : errorStudents ? (
+        <Message variant="danger" message={errorStudents} />
+      ) : (
+        <Table variant="striped">
+          <Thead className="py-2 bg-gray-50">
+            <Tr className="text-center">
+              <Th className="w-[10%]">SN</Th>
+              <Th>Student</Th>
+              <Th className="w-[20%]">Roll No</Th>
+              <Th className="w-[20%]">Attendance</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {attendanceList.length > 0
+              ? attendanceList.map((student) => (
+                  <Tr key={student._id} className="attendance">
+                    <Td>{i++}</Td>
+                    <Td>
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={student.image}
+                          className="w-12 h-12 object-contain"
+                        />
+                        {student.student_name}
+                      </div>
+                    </Td>
+                    <Td>{student.roll_no}</Td>
+                    <Td
+                      className={`cursor-pointer ${
+                        student.present ? "!bg-green-200" : "!bg-red-200"
+                      }`}
+                      onClick={() => toggleAttendance(student._id)}
+                    >
+                      {student.present ? "Present" : "Absent"}
+                    </Td>
+                  </Tr>
+                ))
+              : allStudents &&
+                allStudents.map((student) => (
+                  <Tr key={student._id} className="attendance">
+                    <Td>{i++}</Td>
+                    <Td>
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={student.image}
+                          className="w-12 h-12 object-contain"
+                        />
+                        {student.student_name}
+                      </div>
+                    </Td>
+                    <Td>{student.roll_no}</Td>
+                    <Td
+                      className={`cursor-pointer ${
+                        present[student._id] ? "!bg-green-200" : "!bg-red-200"
+                      }`}
+                      onClick={() => toggleAttendance(student._id)}
+                    >
+                      {present[student._id] ? "Present" : "Absent"}
+                    </Td>
+                  </Tr>
+                ))}
+          </Tbody>
+        </Table>
+      )}
+      {allStudents && (
+        <button
+          onClick={submitAttendance}
+          className={`block m-auto mt-4 text-white font-semibold py-2 px-4 rounded-md bg-green-500 hover:bg-green-600 cursor-pointer`}
+        >
+          Submit
+        </button>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default StudentDeepAttendance
+export default StudentDeepAttendance;
