@@ -2,7 +2,6 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 import Student from "../models/studentModel.js";
 import capitalize from "../config/capitalize.js";
-import NepaliDate from "nepali-date-converter";
 import StudentFees from "../models/studentFeesModel.js";
 import protect from "../middleware/authMiddleware.js";
 import StudentAttendance from "../models/studentAttendanceModel.js";
@@ -35,7 +34,7 @@ router.get(
   "/class/:id/attendance",
   asyncHandler(async (req, res) => {
     const students = await StudentAttendance.findOne({
-      attendance_date: new NepaliDate().format("YYYY-MM-D"),
+      attendance_date: { $gte: new Date().setHours(0, 0, 0) },
       classname: req.params.id,
     });
     // console.log("students",students.length())
@@ -237,7 +236,7 @@ router.post(
     const class_teacher = req.user.name;
     // console.log(req.params.classname)
     const attendanceFound = await StudentAttendance.findOne({
-      attendance_date: new NepaliDate().format("YYYY-MM-D"),
+      attendance_date: new Date(),
       classname: req.params.classname,
     });
     console.log(attendanceFound);
@@ -252,7 +251,7 @@ router.post(
       const new_attendance = await StudentAttendance.create({
         class_teacher,
         classname: req.params.classname,
-        attendance_date: new NepaliDate().format("YYYY-MM-D"),
+        attendance_date: new Date(),
         students,
       });
       console.log(new_attendance);
