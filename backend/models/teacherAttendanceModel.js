@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 const teacherAttendanceSchema = mongoose.Schema({
   admin: {
     type: String,
@@ -15,7 +15,10 @@ const teacherAttendanceSchema = mongoose.Schema({
         type: String,
         required: true,
       },
-
+      image: {
+        type: String,
+        required: true,
+      },
       teacherId: {
         type: Number,
         required: true,
@@ -30,10 +33,10 @@ const teacherAttendanceSchema = mongoose.Schema({
       timestamps: true,
     },
   ],
-})
+});
 
 const TeacherAttendance = mongoose.model(
-  'TeacherAttendance',
+  "TeacherAttendance",
   teacherAttendanceSchema
-)
-export default TeacherAttendance
+);
+export default TeacherAttendance;

@@ -56,18 +56,20 @@ const StudentDeepAttendance = ({ match }) => {
           return student;
         })
       );
+      allStudents.filter((student) => student._id === id)[0].present =
+        !isPresent;
       setPresent((prev) => ({
         ...prev,
         [id]: !isPresent,
       }));
     } else {
+      allStudents.filter((student) => student._id === id)[0].present =
+        !present[id];
       setPresent((prev) => ({
         ...prev,
         [id]: !prev[id],
       }));
     }
-    const new_students = allStudents.filter((student) => student._id === id);
-    new_students[0].present = !present[id];
   };
 
   return (
@@ -99,10 +101,10 @@ const StudentDeepAttendance = ({ match }) => {
         <Table variant="striped">
           <Thead className="py-2 bg-gray-50">
             <Tr className="text-center">
-                <Th className='w-[10%]'>SN</Th>
-                <Th>Student</Th>
-                <Th className='w-[20%]'>Roll No</Th>
-                <Th className='w-[20%]'>Attendance</Th>
+              <Th className="w-[10%]">SN</Th>
+              <Th>Student</Th>
+              <Th className="w-[20%]">Roll No</Th>
+              <Th className="w-[20%]">Attendance</Th>
             </Tr>
           </Thead>
           <Tbody>
