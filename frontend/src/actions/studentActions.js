@@ -72,14 +72,19 @@ export const classlistStudent = (id) => async (dispatch) => {
 };
 //following is for searching the student for paying the fees
 
-export const studentSearch = (name, classname, rollno) => async (dispatch) => {
+export const studentSearch = (name, classname) => async (dispatch) => {
   try {
     dispatch({
       type: STUDENT_SEARCH_REQUEST,
     });
-    console.log(name, classname, rollno);
+
+    if (!name || name === "") {
+      name = "-";
+    }
+    console.log(name, classname);
+
     const { data } = await axios.get(
-      `/api/students/search/${name}/${classname}/${rollno}`
+      `/api/students/search/${classname}/${name}`
     );
     console.log("Data is ", data);
     dispatch({
@@ -134,50 +139,50 @@ export const Update =
     registration_fees,
     image
   ) =>
-  async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: STUDENT_UPDATE_REQUEST,
-      });
-      const {
-        userLogin: { userCred },
-      } = getState();
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userCred.token}`,
-        },
-      };
-      const { data } = await axios.put(
-        `/api/students/update/${id}`,
-        {
-          student_name,
-          classname,
-          address,
-          parents_name,
-          contact_no,
-          gender,
-          age,
-          email,
-          registration_fees,
-          image,
-        },
-        config
-      );
-      dispatch({
-        type: STUDENT_UPDATE_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: STUDENT_UPDATE_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+    async (dispatch, getState) => {
+      try {
+        dispatch({
+          type: STUDENT_UPDATE_REQUEST,
+        });
+        const {
+          userLogin: { userCred },
+        } = getState();
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userCred.token}`,
+          },
+        };
+        const { data } = await axios.put(
+          `/api/students/update/${id}`,
+          {
+            student_name,
+            classname,
+            address,
+            parents_name,
+            contact_no,
+            gender,
+            age,
+            email,
+            registration_fees,
+            image,
+          },
+          config
+        );
+        dispatch({
+          type: STUDENT_UPDATE_SUCCESS,
+          payload: data,
+        });
+      } catch (error) {
+        dispatch({
+          type: STUDENT_UPDATE_FAIL,
+          payload:
+            error.response && error.response.data.message
+              ? error.response.data.message
+              : error.message,
+        });
+      }
+    };
 
 //student register
 
@@ -194,53 +199,53 @@ export const Register =
     registration_fees,
     image
   ) =>
-  async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: STUDENT_REGISTER_REQUEST,
-      });
-      //we need to send headers information so we declaring it inside the config
-      const {
-        userLogin: { userCred },
-      } = getState();
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userCred.token}`,
-        },
-      };
-      const { data } = await axios.post(
-        "/api/students/register",
-        {
-          student_name,
-          classname,
-          address,
-          parents_name,
-          contact_no,
-          gender,
-          age,
-          email,
-          registration_fees,
-          image,
-        },
-        config
-      );
-      dispatch({
-        type: STUDENT_REGISTER_SUCCESS,
-        payload: data,
-      });
-      //we are getting  the json data from our backend request so we need to convert it into the
-      //string before we save them in our local storage of our  browser
-    } catch (error) {
-      dispatch({
-        type: STUDENT_REGISTER_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+    async (dispatch, getState) => {
+      try {
+        dispatch({
+          type: STUDENT_REGISTER_REQUEST,
+        });
+        //we need to send headers information so we declaring it inside the config
+        const {
+          userLogin: { userCred },
+        } = getState();
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userCred.token}`,
+          },
+        };
+        const { data } = await axios.post(
+          "/api/students/register",
+          {
+            student_name,
+            classname,
+            address,
+            parents_name,
+            contact_no,
+            gender,
+            age,
+            email,
+            registration_fees,
+            image,
+          },
+          config
+        );
+        dispatch({
+          type: STUDENT_REGISTER_SUCCESS,
+          payload: data,
+        });
+        //we are getting  the json data from our backend request so we need to convert it into the
+        //string before we save them in our local storage of our  browser
+      } catch (error) {
+        dispatch({
+          type: STUDENT_REGISTER_FAIL,
+          payload:
+            error.response && error.response.data.message
+              ? error.response.data.message
+              : error.message,
+        });
+      }
+    };
 
 //FOLLOWING IS FOR DELETING THE STUDENT
 
@@ -325,51 +330,51 @@ export const PayFees =
     exam_fees,
     miscellaneous
   ) =>
-  async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: STUDENT_FEES_REQUEST,
-      });
-      //we need to send headers information so we declaring it inside the config
-      const {
-        userLogin: { userCred },
-      } = getState();
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userCred.token}`,
-        },
-      };
-      const { data } = await axios.post(
-        `/api/students/fees/${studentId}`,
-        {
-          student_name,
-          classname,
-          roll_no,
-          month_name,
-          year,
-          monthly_fees,
-          hostel_fees,
-          laboratory_fees,
-          computer_fees,
-          exam_fees,
-          miscellaneous,
-        },
-        config
-      );
-      dispatch({
-        type: STUDENT_FEES_SUCCESS,
-        payload: data,
-      });
-      //we are getting  the json data from our backend request so we need to convert it into the
-      //string before we save them in our local storage of our  browser
-    } catch (error) {
-      dispatch({
-        type: STUDENT_FEES_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+    async (dispatch, getState) => {
+      try {
+        dispatch({
+          type: STUDENT_FEES_REQUEST,
+        });
+        //we need to send headers information so we declaring it inside the config
+        const {
+          userLogin: { userCred },
+        } = getState();
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userCred.token}`,
+          },
+        };
+        const { data } = await axios.post(
+          `/api/students/fees/${studentId}`,
+          {
+            student_name,
+            classname,
+            roll_no,
+            month_name,
+            year,
+            monthly_fees,
+            hostel_fees,
+            laboratory_fees,
+            computer_fees,
+            exam_fees,
+            miscellaneous,
+          },
+          config
+        );
+        dispatch({
+          type: STUDENT_FEES_SUCCESS,
+          payload: data,
+        });
+        //we are getting  the json data from our backend request so we need to convert it into the
+        //string before we save them in our local storage of our  browser
+      } catch (error) {
+        dispatch({
+          type: STUDENT_FEES_FAIL,
+          payload:
+            error.response && error.response.data.message
+              ? error.response.data.message
+              : error.message,
+        });
+      }
+    };

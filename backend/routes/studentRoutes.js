@@ -73,10 +73,12 @@ router.get(
   "/search/:class/:name",
   asyncHandler(async (req, res) => {
     console.log(req.params.class, req.params.name);
-    const regex = new RegExp(req.params.name, "i"); // 'i' for case-insensitive search
+    if (req.params.name && req.params.name === "-") req.params.name = "";
+    const classRegex = new RegExp(req.params.class, "i"); // 'i' for case-insensitive search
+    const nameRegex = new RegExp(req.params.name, "i"); // 'i' for case-insensitive search
     const students = await Student.find({
-      classname: capitalize(req.params.class),
-      student_name: { $regex: regex },
+      classname: req.params.class,
+      student_name: { $regex: nameRegex },
     });
     console.log(students);
 
@@ -348,14 +350,14 @@ router.post(
         var total_Fees1 = 0;
         total_Fees.map(
           (fee) =>
-            (total_Fees1 =
-              total_Fees1 +
-              fee.monthly_fees +
-              fee.hostel_fees +
-              fee.laboratory_fees +
-              fee.computer_fees +
-              fee.exam_fees +
-              fee.miscellaneous)
+          (total_Fees1 =
+            total_Fees1 +
+            fee.monthly_fees +
+            fee.hostel_fees +
+            fee.laboratory_fees +
+            fee.computer_fees +
+            fee.exam_fees +
+            fee.miscellaneous)
           // return total_Fees
         );
 
