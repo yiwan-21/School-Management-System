@@ -1,70 +1,65 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  classlistStudent,
-  studentAttendances,
-} from "../actions/studentActions";
-import { STUDENT_ATTENDANCE_RESET } from "../constants/studentConstants";
-import Loader from "../components/Loader";
-import Message from "../components/Message";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+import { listStaffs, staffAttendances } from "../actions/staffActions";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { STAFF_ATTENDANCE_RESET } from "../constants/staffConstants";
 
-const StudentDeepAttendance = ({ match }) => {
-  const matchid = match.params.class;
+function StaffAttendance() {
   const [attendanceList, setAttendanceList] = useState([]);
   const [present, setPresent] = useState({});
   const dispatch = useDispatch();
   const {
     loading: loadingAttendance,
-    students: studentsAttendance,
+    staffs: staffsAttendance,
     error: errorAttendance,
-  } = useSelector((state) => state.studentAttendance);
+  } = useSelector((state) => state.staffAttendance);
   const {
-    loading: loadingStudents,
-    students: allStudentsData,
-    error: errorStudents,
-  } = useSelector((state) => state.studentClassList);
-  const allStudents = allStudentsData && [...allStudentsData];
+    loading: loadingStaffs,
+    staffs: allStaffsData,
+    error: errorStaffs,
+  } = useSelector((state) => state.staffList);
+  const allStaffs = allStaffsData && [...allStaffsData];
 
   useEffect(() => {
-    const studentsAttend = async () => {
+    const staffsAttend = async () => {
       axios
-        .get(`/api/students/class/${matchid}/attendance`)
-        .then((res) => setAttendanceList(res.data.students))
+        .get(`/api/staffs/attendance`)
+        .then((res) => setAttendanceList(res.data.staffs))
         .catch((err) => console.log(err.response.data.message));
     };
-    studentsAttend();
+    staffsAttend();
     dispatch({
-      type: STUDENT_ATTENDANCE_RESET,
+      type: STAFF_ATTENDANCE_RESET,
     });
-    dispatch(classlistStudent(matchid));
-  }, [dispatch, matchid]);
+    dispatch(listStaffs());
+  }, [dispatch]);
+
   var i = 1;
   const submitAttendance = () => {
-    dispatch(studentAttendances(matchid, allStudentsData));
+    dispatch(staffAttendances(allStaffsData));
   };
   const toggleAttendance = (id) => {
     if (attendanceList.length > 0) {
-      let isPresent = attendanceList.filter((student) => student._id === id)[0]
+      let isPresent = attendanceList.filter((staff) => staff._id === id)[0]
         .present;
       setAttendanceList((prev) =>
-        prev.map((student) => {
-          if (student._id === id) {
-            student.present = !isPresent;
+        prev.map((staff) => {
+          if (staff._id === id) {
+            staff.present = !isPresent;
           }
-          return student;
+          return staff;
         })
       );
-      allStudents.filter((student) => student._id === id)[0].present =
-        !isPresent;
+      allStaffs.filter((staff) => staff._id === id)[0].present = !isPresent;
       setPresent((prev) => ({
         ...prev,
         [id]: !isPresent,
       }));
     } else {
-      allStudents.filter((student) => student._id === id)[0].present =
-        !present[id];
+      allStaffs.filter((staff) => staff._id === id)[0].present = !present[id];
       setPresent((prev) => ({
         ...prev,
         [id]: !prev[id],
@@ -85,81 +80,78 @@ const StudentDeepAttendance = ({ match }) => {
           Attendance already taken for today
         </h3>
       )}
-      {studentsAttendance && (
-        <Message variant="success" message={studentsAttendance.message} />
+      {staffsAttendance && (
+        <Message variant="success" message={staffsAttendance.message} />
       )}
       {errorAttendance && (
         <Message variant="danger" message={errorAttendance.message} />
       )}
       <br />
       {loadingAttendance && <Loader />}
-      {loadingStudents ? (
+      {loadingStaffs ? (
         <Loader />
-      ) : errorStudents ? (
-        <Message variant="danger" message={errorStudents} />
+      ) : errorStaffs ? (
+        <Message variant="danger" message={errorStaffs} />
       ) : (
         <Table variant="striped">
           <Thead className="py-2 bg-gray-50">
             <Tr className="text-center">
               <Th className="w-[10%]">SN</Th>
-              <Th>Student</Th>
-              <Th className="w-[20%]">Roll No</Th>
+              <Th>Staff</Th>
               <Th className="w-[20%]">Attendance</Th>
             </Tr>
           </Thead>
           <Tbody>
             {attendanceList.length > 0
-              ? attendanceList.map((student) => (
-                  <Tr key={student._id} className="attendance">
+              ? attendanceList.map((staff) => (
+                  <Tr key={staff._id} className="attendance">
                     <Td>{i++}</Td>
                     <Td>
                       <div className="flex items-center gap-4">
                         <img
-                          src={student.image}
+                          src={staff.image}
                           className="w-12 h-12 object-contain"
                         />
-                        {student.student_name}
+                        {staff.staff_name}
                       </div>
                     </Td>
-                    <Td>{student.roll_no}</Td>
                     <Td
                       className={`cursor-pointer ${
-                        student.present ? "!bg-green-200" : "!bg-red-200"
+                        staff.present ? "!bg-green-200" : "!bg-red-200"
                       }`}
-                      onClick={() => toggleAttendance(student._id)}
+                      onClick={() => toggleAttendance(staff._id)}
                     >
-                      {student.present ? "Present" : "Absent"}
+                      {staff.present ? "Present" : "Absent"}
                     </Td>
                   </Tr>
                 ))
-              : allStudents &&
-                allStudents.map((student) => (
-                  <Tr key={student._id} className="attendance">
+              : allStaffs &&
+                allStaffs.map((staff) => (
+                  <Tr key={staff._id} className="attendance">
                     <Td>{i++}</Td>
                     <Td>
                       <div className="flex items-center gap-4">
                         <img
-                          src={student.image}
+                          src={staff.image}
                           className="w-12 h-12 object-contain"
                         />
-                        {student.student_name}
+                        {staff.staff_name}
                       </div>
                     </Td>
-                    <Td>{student.roll_no}</Td>
                     <Td
                       className={`cursor-pointer ${
-                        present[student._id] ? "!bg-green-200" : "!bg-red-200"
+                        present[staff._id] ? "!bg-green-200" : "!bg-red-200"
                       }`}
-                      onClick={() => toggleAttendance(student._id)}
+                      onClick={() => toggleAttendance(staff._id)}
                     >
-                      {present[student._id] ? "Present" : "Absent"}
+                      {present[staff._id] ? "Present" : "Absent"}
                     </Td>
                   </Tr>
                 ))}
           </Tbody>
         </Table>
       )}
-      {allStudents && (
+      {allStaffs && (
         <button
           onClick={submitAttendance}
           className={`block m-auto mt-4 text-white font-semibold py-2 px-4 rounded-md bg-green-500 hover:bg-green-600 cursor-pointer`}
@@ -169,6 +161,6 @@ const StudentDeepAttendance = ({ match }) => {
       )}
     </div>
   );
-};
+}
 
-export default StudentDeepAttendance;
+export default StaffAttendance;

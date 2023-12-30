@@ -18,6 +18,9 @@ import {
   STAFF_UPDATE_FAIL,
   STAFF_UPDATE_REQUEST,
   STAFF_UPDATE_SUCCESS,
+  STAFF_ATTENDANCE_REQUEST,
+  STAFF_ATTENDANCE_SUCCESS,
+  STAFF_ATTENDANCE_FAIL,
 } from "../constants/staffConstants";
 
 export const PaySalary =
@@ -271,3 +274,43 @@ export const listStaffs = () => async (dispatch) => {
     });
   }
 };
+
+// STAFF attendance
+export const staffAttendances = (staffs) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: STAFF_ATTENDANCE_REQUEST,
+    });
+    //we need to send headers information so we declaring it inside the config
+    const {
+      userLogin: { userCred },
+    } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userCred.token}`,
+      },
+    };
+    const { data } = await axios.post(
+      '/api/staffs/attendance/',
+      {
+        staffs,
+      },
+      config
+    );
+    dispatch({
+      type: STAFF_ATTENDANCE_SUCCESS,
+      payload: data,
+    });
+    //we are getting  the json data from our backend request so we need to convert it into the
+    //string before we save them in our local storage of our  browser
+  } catch (error) {
+    dispatch({
+      type: STAFF_ATTENDANCE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+}

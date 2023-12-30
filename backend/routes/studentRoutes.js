@@ -2,7 +2,6 @@ import express from "express";
 import asyncHandler from "express-async-handler";
 import Student from "../models/studentModel.js";
 import capitalize from "../config/capitalize.js";
-import NepaliDate from "nepali-date-converter";
 import StudentFees from "../models/studentFeesModel.js";
 import protect from "../middleware/authMiddleware.js";
 import StudentAttendance from "../models/studentAttendanceModel.js";
@@ -35,12 +34,12 @@ router.get(
   "/class/:id/attendance",
   asyncHandler(async (req, res) => {
     const students = await StudentAttendance.findOne({
-      attendance_date: new NepaliDate().format("YYYY-MM-D"),
+      attendance_date: { $gte: new Date().setHours(0, 0, 0) },
       classname: req.params.id,
     });
     // console.log("students",students.length())
     if (students) {
-      console.log(students);
+      // console.log(students);
 
       res.json(students);
     } else {
@@ -233,36 +232,34 @@ router.post(
   asyncHandler(async (req, res) => {
     // const students = await Student.find({})
     const { students } = req.body;
-    console.log(req.body);
     const class_teacher = req.user.name;
     // console.log(req.params.classname)
     const attendanceFound = await StudentAttendance.findOne({
-      attendance_date: new NepaliDate().format("YYYY-MM-D"),
+      attendance_date: { $gte: new Date().setHours(0, 0, 0) },
       classname: req.params.classname,
     });
-    console.log(attendanceFound);
+    // console.log(attendanceFound);
     if (attendanceFound) {
       await StudentAttendance.updateOne(
         { _id: attendanceFound._id },
         { $set: { students: students } }
       );
-      console.log("done with re-attendance");
       res.status(201).json({ message: "Attendance retaken successfully" });
     } else {
       const new_attendance = await StudentAttendance.create({
         class_teacher,
         classname: req.params.classname,
-        attendance_date: new NepaliDate().format("YYYY-MM-D"),
+        attendance_date: new Date(),
         students,
       });
-      console.log(new_attendance);
+      // console.log(new_attendance);
       if (new_attendance) {
         res.status(201).json({
           message: "Attendance taken successfully",
         });
       } else {
         res.status(400);
-        console.log(error);
+        // console.log(error);
         throw new Error("Unable to take attendance");
       }
     }

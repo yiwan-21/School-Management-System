@@ -20,6 +20,10 @@ import {
   STAFF_SEARCH_FAIL,
   STAFF_SEARCH_REQUEST,
   STAFF_SEARCH_SUCCESS,
+  STAFF_ATTENDANCE_REQUEST,
+  STAFF_ATTENDANCE_SUCCESS,
+  STAFF_ATTENDANCE_FAIL,
+  STAFF_ATTENDANCE_RESET,
 } from "../constants/staffConstants";
 
 export const staffSalaryReducer = (state = {}, action) => {
@@ -104,6 +108,21 @@ export const staffListReducer = (state = { staffs: [] }, action) => {
     case STAFF_LIST_FAIL:
       return { loading: false, error: action.payload };
     case STAFF_LIST_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const staffAttendanceReducer = (state = { staffs: [] }, action) => {
+  switch (action.type) {
+    case STAFF_ATTENDANCE_REQUEST:
+      return { loading: true };
+    case STAFF_ATTENDANCE_SUCCESS:
+      return { loading: false, staffs: action.payload };
+    case STAFF_ATTENDANCE_FAIL:
+      return { loading: false, error: action.payload };
+    case STAFF_ATTENDANCE_RESET:
       return {};
     default:
       return state;

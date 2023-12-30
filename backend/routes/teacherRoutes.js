@@ -195,6 +195,56 @@ router.post(
   })
 );
 
+// the following route is for loading attendance and teachers info.
+router.get(
+  "/attendance",
+  asyncHandler(async (req, res) => {
+    const teachers = await TeacherAttendance.findOne({
+      attendance_date: { $gte: new Date().setHours(0, 0, 0) },
+    });
+
+    if (teachers) {
+      res.json(teachers);
+    } else {
+      res.status(404).json({ message: "No teachers found." });
+    }
+  })
+);
+
+//following route is for attendance of teachers
+router.post(
+  "/attendance",
+  protect,
+  asyncHandler(async (req, res) => {
+    const { teachers } = req.body;
+    const admin = req.user.name;
+    const attendanceFound = await TeacherAttendance.findOne({
+      attendance_date: { $gte: new Date().setHours(0, 0, 0) },
+    });
+    if (attendanceFound) {
+      await TeacherAttendance.updateOne(
+        { _id: attendanceFound._id },
+        { $set: { teachers: teachers } }
+      );
+      res.status(201).json({ message: "Attendance retaken successfully" });
+    } else {
+      const new_attendance = await TeacherAttendance.create({
+        admin,
+        attendance_date: new Date(),
+        teachers,
+      });
+      if (new_attendance) {
+        res.status(201).json({
+          message: "Attendance taken successfully",
+        });
+      } else {
+        res.status(400);
+        throw new Error("Unable to take attendance");
+      }
+    }
+  })
+);
+
 //following route is for paying the fees of teachers
 
 router.post(

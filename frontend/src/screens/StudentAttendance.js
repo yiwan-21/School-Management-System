@@ -1,26 +1,72 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Classes from './classData'
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { Box } from "@chakra-ui/react";
+import { FaSearch, FaTimes } from "react-icons/fa";
 
-import ClassItems from '../components/ClassItems'
+import Classes from "./classData";
+import ClassItems from "../components/ClassItems";
 const StudentAttendance = () => {
-  return (
-    <div className='container2'>
-      <div className='outer'>
-        <h3>Select the Class </h3>
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredClasses, setFilteredClasses] = useState(Classes);
+  const searchInputRef = useRef(null);
 
-        <div className='classes'>
-          {Classes.map((classname) => (
+  useEffect(() => {
+    const trimmedQuery = searchQuery.trim().toLowerCase();
+
+    const filteredClasses = Classes.filter((classData) =>
+      classData.classname.toLowerCase().includes(trimmedQuery)
+    );
+
+    setFilteredClasses(filteredClasses);
+  }, [searchQuery]);
+
+  return (
+    // chakra ui
+    <Box>
+      <Box display="flex" justifyContent="flex-end" className="m-3">
+        <input
+          ref={searchInputRef}
+          type="text"
+          className="p-2 rounded-[10px] border border-gray-500"
+          placeholder="Search for class..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        {searchQuery.trim().length > 0 ? (
+          <div
+            className="p-3 cursor-pointer"
+            onClick={() => setSearchQuery("")}
+          >
+            <FaTimes />
+          </div>
+        ) : (
+          <div
+            className="p-3 cursor-pointer"
+            onClick={() => searchInputRef.current.focus()}
+          >
+            <FaSearch />
+          </div>
+        )}
+      </Box>
+      <Box display="flex" justifyContent="center">
+        <Box
+          display="grid"
+          width={{ base: "100%", md: "80%" }}
+          gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))"
+          columnGap={5}
+          rowGap={10}
+        >
+          {filteredClasses.map((classinfo) => (
             <ClassItems
-              key={classname._id}
-              target={`/student-attendance/${classname.classname}`}
-              classid={classname.classname}
+              key={classinfo._id}
+              target={`/student-attendance/${classinfo.classname}`}
+              classid={classinfo.classname}
             />
           ))}
-        </div>
-      </div>
-    </div>
-  )
-}
+        </Box>
+      </Box>
+    </Box>
+  );
+};
 
-export default StudentAttendance
+export default StudentAttendance;
