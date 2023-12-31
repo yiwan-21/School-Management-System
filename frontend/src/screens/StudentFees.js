@@ -39,7 +39,9 @@ const StudentFees = () => {
   } = studentFees;
   const formSubmit = async (e) => {
     e.preventDefault();
-    dispatch(studentSearch(name.trim(), classname, rollno));
+    setSearched(true);
+    setStudent({});
+    dispatch(studentSearch(name.trim(), classname));
   };
   const submitHandler = (e) => {
     e.preventDefault();
@@ -49,11 +51,10 @@ const StudentFees = () => {
       PayFees(
         student._id,
         student.student_name,
-
         student.classname,
         student.roll_no,
         monthname,
-        new NepaliDate().format("YYYY"),
+        year,
         monthlyfees,
         hostel_fees,
         laboratory_fees,
@@ -82,50 +83,95 @@ const StudentFees = () => {
   }, [dispatch]);
   return (
     <div className="container1">
-      <div className="search-form">
-        <h4>Search for Student to pay fees</h4>
+      <div className="bg-white mx-10 p-5 rounded-lg mb-3 outline outline-1 outline-gray-400">
+        <h1 className="text-center font-bold" style={{ fontSize: "25px" }}>
+          Search for Student to pay fees
+        </h1>
+        <hr />
 
-        <form onSubmit={formSubmit}>
-          <input
-            className="first-input"
-            type="text"
-            value={name}
-            placeholder="Enter the name of student"
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <select
-            id="class"
-            value={classname}
-            onChange={(e) => setClassname(e.target.value)}
-            required
+        <form
+          className="grid grid-cols-12"
+          onSubmit={formSubmit}
+          style={{ fontWeight: "bold" }}
+        >
+          <div className="form-control col-span-5">
+            <label htmlFor="registration-fees">Name</label>
+            <Input
+              className="first-input"
+              type="text"
+              value={name}
+              placeholder="Filter via Student Name"
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="form-control col-span-5">
+            <label htmlFor="registration-fees">Class</label>
+            <Select
+              id="class"
+              value={classname}
+              onChange={(e) => setClassname(e.target.value)}
+              required
+            >
+              <option value="">Select Class</option>
+              <option value="Nursery">Nursery</option>
+              <option value="LKG">LKG</option>
+              <option value="UKG">UKG</option>
+              <option value="One">One</option>
+              <option value="Two">Two</option>
+              <option value="Three">Three</option>
+              <option value="Four">Four</option>
+              <option value="Five">Five</option>
+              <option value="Six">Six</option>
+              <option value="Seven">Seven</option>
+              <option value="Eight">Eight</option>
+              <option value="Nine">Nine</option>
+              <option value="Ten">Ten</option>
+            </Select>
+          </div>
+          <Button
+            height={"auto"}
+            className="btn-register col-span-2"
+            type="submit"
+            colorScheme="whatsapp"
           >
-            <option value="">Select Class</option>
-            <option value="Nursery">Nursery</option>
-            <option value="LKG">LKG</option>
-            <option value="UKG">UKG</option>
-            <option value="One">One</option>
-            <option value="Two">Two</option>
-            <option value="Three">Three</option>
-            <option value="Four">Four</option>
-            <option value="Five">Five</option>
-            <option value="Six">Six</option>
-            <option value="Seven">Seven</option>
-            <option value="Eight">Eight</option>
-            <option value="Nine">Nine</option>
-            <option value="Ten">Ten</option>
-          </select>
-          <input
-            type="number"
-            value={rollno}
-            onChange={(e) => setRollno(e.target.value)}
-            placeholder="Enter the roll no"
-            required
-          />
-          <button className="btn-search" type="submit">
             Search
-          </button>
+          </Button>
         </form>
+      </div>
+      <div className="bg-white mx-10 p-5 rounded-lg mb-3 outline outline-1 outline-gray-400">
+        {students && students.length ? (
+          <>
+            <h1 className="text-center font-bold" style={{ fontSize: "25px" }}>
+              Students
+            </h1>
+            <hr />
+
+            <div className="pt-5 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              {students.map((item, key) => (
+                <Button
+                  key={`student-${key}`}
+                  className="col-span-1 p-2 h-full"
+                  height={"auto"}
+                  colorScheme={
+                    student && student._id === item._id ? "whatsapp" : "gray"
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setStudent(item);
+                  }}
+                >
+                  <div className="text-center text-lg">{item.student_name}</div>
+                </Button>
+              ))}
+            </div>
+          </>
+        ) : searched ? (
+          <div className="text-center">No student(s) found...</div>
+        ) : (
+          <div className="text-center">
+            Select a class and search to continue...
+          </div>
+        )}
       </div>
       {ok && errorfees && <Message variant="danger" message={errorfees} />}
       {ok && successfees && (

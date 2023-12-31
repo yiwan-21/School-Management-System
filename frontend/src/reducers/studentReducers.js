@@ -81,9 +81,9 @@ export const studentClassListReducer = (state = { students: [] }, action) => {
 export const studentSearchReducer = (state = {}, action) => {
   switch (action.type) {
     case STUDENT_SEARCH_REQUEST:
-      return { loading: true, student: {} };
+      return { loading: true, students: {} };
     case STUDENT_SEARCH_SUCCESS:
-      return { loading: false, student: action.payload };
+      return { loading: false, students: action.payload };
     case STUDENT_SEARCH_FAIL:
       return { loading: false, error: action.payload };
     case STUDENT_SEARCH_CLEAR:
