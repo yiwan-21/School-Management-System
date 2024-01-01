@@ -112,8 +112,8 @@ function TeacherAttendance() {
             {attendanceList.length > 0
               ? attendanceList.map((teacher) => (
                 <Tr key={teacher._id} className="attendance">
-                  <Td>{i++}</Td>
-                  <Td>
+                  <Td className="font-semibold">{i++}</Td>
+                  <Td className="font-semibold">
                     <div className="flex items-center gap-4">
                       <img
                         src={teacher.image}
@@ -123,7 +123,7 @@ function TeacherAttendance() {
                     </div>
                   </Td>
                   <Td
-                    className={`cursor-pointer ${teacher.present ? "!bg-green-200" : "!bg-red-200"
+                    className={`font-semibold cursor-pointer ${teacher.present ? "!bg-green-200" : "!bg-red-200"
                       }`}
                     onClick={() => toggleAttendance(teacher._id)}
                   >
@@ -134,8 +134,8 @@ function TeacherAttendance() {
               : allTeachersData &&
               allTeachersData.map((teacher) => (
                 <Tr key={teacher._id} className="attendance">
-                  <Td>{i++}</Td>
-                  <Td>
+                  <Td className="font-semibold">{i++}</Td>
+                  <Td className="font-semibold">
                     <div className="flex items-center gap-4">
                       <img
                         src={teacher.image}
@@ -145,7 +145,7 @@ function TeacherAttendance() {
                     </div>
                   </Td>
                   <Td
-                    className={`cursor-pointer ${present[teacher._id] ? "!bg-green-200" : "!bg-red-200"
+                    className={`font-semibold cursor-pointer ${present[teacher._id] ? "!bg-green-200" : "!bg-red-200"
                       }`}
                     onClick={() => toggleAttendance(teacher._id)}
                   >

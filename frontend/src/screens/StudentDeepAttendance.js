@@ -116,8 +116,8 @@ const StudentDeepAttendance = ({ match }) => {
             {attendanceList.length > 0
               ? attendanceList.map((student) => (
                 <Tr key={student._id} className="attendance">
-                  <Td>{i++}</Td>
-                  <Td>
+                  <Td className="font-semibold">{i++}</Td>
+                  <Td className="font-semibold">
                     <div className="flex items-center gap-4">
                       <img
                         src={student.image}
@@ -126,9 +126,9 @@ const StudentDeepAttendance = ({ match }) => {
                       {student.student_name}
                     </div>
                   </Td>
-                  <Td>{student.roll_no}</Td>
+                  <Td className="font-semibold">{student.roll_no}</Td>
                   <Td
-                    className={`cursor-pointer ${student.present ? "!bg-green-200" : "!bg-red-200"
+                    className={`font-semibold cursor-pointer ${student.present ? "!bg-green-200" : "!bg-red-200"
                       }`}
                     onClick={() => toggleAttendance(student._id)}
                   >
@@ -139,8 +139,8 @@ const StudentDeepAttendance = ({ match }) => {
               : allStudentsData &&
               allStudentsData.map((student) => (
                 <Tr key={student._id} className="attendance">
-                  <Td>{i++}</Td>
-                  <Td>
+                  <Td className="font-semibold">{i++}</Td>
+                  <Td className="font-semibold">
                     <div className="flex items-center gap-4">
                       <img
                         src={student.image}
@@ -149,9 +149,9 @@ const StudentDeepAttendance = ({ match }) => {
                       {student.student_name}
                     </div>
                   </Td>
-                  <Td>{student.roll_no}</Td>
+                  <Td className="font-semibold">{student.roll_no}</Td>
                   <Td
-                    className={`cursor-pointer ${present[student._id] ? "!bg-green-200" : "!bg-red-200"
+                    className={`font-semibold cursor-pointer ${present[student._id] ? "!bg-green-200" : "!bg-red-200"
                       }`}
                     onClick={() => toggleAttendance(student._id)}
                   >
