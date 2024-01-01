@@ -221,17 +221,17 @@ router.post(
   asyncHandler(async (req, res) => {
     const { staffs } = req.body;
     const admin = req.user.name;
-    const attendanceFound = await TeacherAttendance.findOne({
+    const attendanceFound = await nonTeachingStaffAttendance.findOne({
       attendance_date: { $gte: new Date().setHours(0, 0, 0) },
     });
     if (attendanceFound) {
-      await TeacherAttendance.updateOne(
+      await nonTeachingStaffAttendance.updateOne(
         { _id: attendanceFound._id },
         { $set: { staffs: staffs } }
       );
       res.status(201).json({ message: "Attendance retaken successfully" });
     } else {
-      const new_attendance = await TeacherAttendance.create({
+      const new_attendance = await nonTeachingStaffAttendance.create({
         admin,
         attendance_date: new Date(),
         staffs,
