@@ -21,7 +21,6 @@ function TeacherAttendance() {
     teachers: allTeachersData,
     error: errorTeachers,
   } = useSelector((state) => state.teacherList);
-  const allTeachers = allTeachersData && [...allTeachersData];
 
   useEffect(() => {
     const teachersAttend = async () => {
@@ -39,6 +38,14 @@ function TeacherAttendance() {
 
   var i = 1;
   const submitAttendance = () => {
+    attendanceList && allTeachersData &&
+      allTeachersData.filter((teacher) => teacher.present === undefined)
+        .forEach((teacher) => {
+          const index = attendanceList.findIndex((t) => t._id === teacher._id);
+          if (index !== -1) {
+            teacher.present = attendanceList[index].present;
+          }
+        });
     dispatch(teacherAttendances(allTeachersData));
   };
   const toggleAttendance = (id) => {
@@ -53,15 +60,13 @@ function TeacherAttendance() {
           return teacher;
         })
       );
-      allTeachers.filter((teacher) => teacher._id === id)[0].present =
-        !isPresent;
+      allTeachersData.filter((teacher) => teacher._id === id)[0].present = !isPresent;
       setPresent((prev) => ({
         ...prev,
         [id]: !isPresent,
       }));
     } else {
-      allTeachers.filter((teacher) => teacher._id === id)[0].present =
-        !present[id];
+      allTeachersData.filter((teacher) => teacher._id === id)[0].present = !present[id];
       setPresent((prev) => ({
         ...prev,
         [id]: !prev[id],
@@ -106,54 +111,52 @@ function TeacherAttendance() {
           <Tbody>
             {attendanceList.length > 0
               ? attendanceList.map((teacher) => (
-                  <Tr key={teacher._id} className="attendance">
-                    <Td>{i++}</Td>
-                    <Td>
-                      <div className="flex items-center gap-4">
-                        <img
-                          src={teacher.image}
-                          className="w-12 h-12 object-contain"
-                        />
-                        {teacher.teacher_name}
-                      </div>
-                    </Td>
-                    <Td
-                      className={`cursor-pointer ${
-                        teacher.present ? "!bg-green-200" : "!bg-red-200"
+                <Tr key={teacher._id} className="attendance">
+                  <Td>{i++}</Td>
+                  <Td>
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={teacher.image}
+                        className="w-12 h-12 object-contain"
+                      />
+                      {teacher.teacher_name}
+                    </div>
+                  </Td>
+                  <Td
+                    className={`cursor-pointer ${teacher.present ? "!bg-green-200" : "!bg-red-200"
                       }`}
-                      onClick={() => toggleAttendance(teacher._id)}
-                    >
-                      {teacher.present ? "Present" : "Absent"}
-                    </Td>
-                  </Tr>
-                ))
-              : allTeachers &&
-                allTeachers.map((teacher) => (
-                  <Tr key={teacher._id} className="attendance">
-                    <Td>{i++}</Td>
-                    <Td>
-                      <div className="flex items-center gap-4">
-                        <img
-                          src={teacher.image}
-                          className="w-12 h-12 object-contain"
-                        />
-                        {teacher.teacher_name}
-                      </div>
-                    </Td>
-                    <Td
-                      className={`cursor-pointer ${
-                        present[teacher._id] ? "!bg-green-200" : "!bg-red-200"
+                    onClick={() => toggleAttendance(teacher._id)}
+                  >
+                    {teacher.present ? "Present" : "Absent"}
+                  </Td>
+                </Tr>
+              ))
+              : allTeachersData &&
+              allTeachersData.map((teacher) => (
+                <Tr key={teacher._id} className="attendance">
+                  <Td>{i++}</Td>
+                  <Td>
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={teacher.image}
+                        className="w-12 h-12 object-contain"
+                      />
+                      {teacher.teacher_name}
+                    </div>
+                  </Td>
+                  <Td
+                    className={`cursor-pointer ${present[teacher._id] ? "!bg-green-200" : "!bg-red-200"
                       }`}
-                      onClick={() => toggleAttendance(teacher._id)}
-                    >
-                      {present[teacher._id] ? "Present" : "Absent"}
-                    </Td>
-                  </Tr>
-                ))}
+                    onClick={() => toggleAttendance(teacher._id)}
+                  >
+                    {present[teacher._id] ? "Present" : "Absent"}
+                  </Td>
+                </Tr>
+              ))}
           </Tbody>
         </Table>
       )}
-      {allTeachers && (
+      {allTeachersData && (
         <button
           onClick={submitAttendance}
           className={`block m-auto mt-4 text-white font-semibold py-2 px-4 rounded-md bg-green-500 hover:bg-green-600 cursor-pointer`}
