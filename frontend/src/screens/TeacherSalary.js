@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { listTeachers, PaySalary } from '../actions/teacherActions';
-import { TEACHER_SALARY_RESET } from '../constants/teacherConstants';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { listTeachers, PaySalary } from "../actions/teacherActions";
+import { TEACHER_SALARY_RESET } from "../constants/teacherConstants";
 import { Button, Input } from "@chakra-ui/react";
-import Select from 'react-select';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
-import './Student.css';
+import Select from "react-select";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import "./Student.css";
 
 const TeacherSalary = ({ history }) => {
   const [selectedTeacher, setSelectedTeacher] = useState(null);
-  const [teachername, setTeachername] = useState('');
-  const [id, setId] = useState('');
+  const [teachername, setTeachername] = useState("");
+  const [id, setId] = useState("");
   const [valid, setValid] = useState(false);
-  const [year, setYear] = useState('');
-  const [salary, setSalary] = useState('');
-  const [month, setMonth] = useState('');
+  const [year, setYear] = useState("");
+  const [salary, setSalary] = useState("");
+  const [month, setMonth] = useState("");
 
   const dispatch = useDispatch();
 
@@ -31,7 +31,24 @@ const TeacherSalary = ({ history }) => {
   const teacherList = useSelector((state) => state.teacherList);
   const { loading: loadingTeacher, teachers } = teacherList;
 
-  const teacherOptions = teachers.map(teacher => ({ value: teacher.teacherId, label: teacher.teacher_name }));
+  const teacherOptions = teachers.map((teacher) => ({
+    value: teacher.teacherId,
+    label: teacher.teacher_name,
+  }));
+  const monthOptions = [
+    { value: "Baisakh", label: "January" },
+    { value: "Jestha", label: "February" },
+    { value: "Ashadh", label: "March" },
+    { value: "Shrawan", label: "April" },
+    { value: "Bhadra", label: "May" },
+    { value: "Ashoj", label: "June" },
+    { value: "Kartik", label: "July" },
+    { value: "Mangsir", label: "August" },
+    { value: "Poush", label: "September" },
+    { value: "Magh", label: "October" },
+    { value: "Falgun", label: "November" },
+    { value: "Chaitra", label: "December" },
+  ];
 
   useEffect(() => {
     dispatch(listTeachers());
@@ -39,21 +56,21 @@ const TeacherSalary = ({ history }) => {
       type: TEACHER_SALARY_RESET,
     });
     if (!userCred) {
-      history.push('/login')
+      history.push("/login");
     }
   }, [userCred, history]);
 
   const submitHandler = (e) => {
-    e.preventDefault()
-    setValid(true)
+    e.preventDefault();
+    setValid(true);
     setTimeout(() => {
-      setValid(false)
-    }, 10000)
-    dispatch(PaySalary(teachername.trim(), id, year, month, salary))
-    setTeachername('')
-    setId('')
-    setYear('')
-    setSalary('')
+      setValid(false);
+    }, 10000);
+    dispatch(PaySalary(teachername.trim(), id, year, month, salary));
+    setTeachername("");
+    setId("");
+    setYear("");
+    setSalary("");
   };
 
   const handleSelectChange = (selectedOption) => {
@@ -61,28 +78,30 @@ const TeacherSalary = ({ history }) => {
     setId(selectedOption.value);
     setTeachername(selectedOption.label);
 
-    const selectedTeacherData = teachers.find(teacher => teacher.teacherId === selectedOption.value);
+    const selectedTeacherData = teachers.find(
+      (teacher) => teacher.teacherId === selectedOption.value
+    );
     if (selectedTeacherData && selectedTeacherData.estimated_salary) {
       setSalary(selectedTeacherData.estimated_salary.toString());
     }
   };
 
   return (
-    <div className='container1' style={{ marginTop: '10px' }}>
-      <div className='outer-layout'>
+    <div className="container1" style={{ marginTop: "10px" }}>
+      <div className="outer-layout">
         <h1>Teacher Salary Section</h1>
         {valid && success && (
-          <Message variant='success' message={success.message} />
+          <Message variant="success" message={success.message} />
         )}
-        {valid && error && <Message variant='danger' message={error} />}
+        {valid && error && <Message variant="danger" message={error} />}
 
         {loadingTeacher ? (
           <Loader />
         ) : (
           <form onSubmit={submitHandler}>
-            <div className='form-inner'>
-              <div className='form-control'>
-                <label for='name'>Teacher Name</label>
+            <div className="form-inner">
+              <div className="form-control">
+                <label for="name">Teacher Name</label>
                 <Select
                   options={teacherOptions}
                   onChange={handleSelectChange}
@@ -91,58 +110,44 @@ const TeacherSalary = ({ history }) => {
                   placeholder="Select Teacher"
                 />
               </div>
-              <div className='form-control'>
-                <label for='name'>Teacher ID</label>
+              <div className="form-control">
+                <label for="name">Teacher ID</label>
                 <Input
-                  type='number'
+                  type="number"
                   value={id}
                   onChange={(e) => setId(e.target.value)}
                   readOnly
                   required
                 />
               </div>
-              <div className='form-control'>
-                <label for='year'>Salary for Year</label>
+              <div className="form-control">
+                <label for="year">Salary for Year</label>
                 <Input
-                  type='string'
+                  type="string"
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
                 />
-              </div>{' '}
-              <div className='form-control'>
-                <label for='name'>Salary for Month</label>
-                <select
-                  id='class'
-                  value={month}
-                  onChange={(e) => setMonth(e.target.value)}
+              </div>{" "}
+              <div className="form-control">
+                <label for="name">Salary for Month</label>
+                <Select
+                  options={monthOptions}
+                  onChange={(selectedOption) => setMonth(selectedOption.value)}
+                  isSearchable={false}
+                  placeholder="Select Month"
+                  value={monthOptions.find((option) => option.value === month)}
                   required
-                >
-                  <option value=''>Select Month</option>
-
-                  <option value='Baisakh'>Baisakh</option>
-                  <option value='Jestha'>Jestha</option>
-                  <option value='Ashadh'>Ashadh</option>
-                  <option value='Shrawan'>Shrawan</option>
-                  <option value='Bhadra'>Bhadra</option>
-                  <option value='Ashoj'>Ashoj</option>
-                  <option value='Kartik'>Kartik</option>
-                  <option value='Mangsir'>Mangsir</option>
-                  <option value='Poush'>Poush</option>
-                  <option value='Magh'>Magh</option>
-                  <option value='Falgun'>Falgun</option>
-                  <option value='Chaitra'>Chaitra</option>
-                  {/* <option value='Ten'>Ten</option> */}
-                </select>
-              </div>{' '}
-              <div className='form-control'>
-                <label for='name'>Salary Amount</label>
+                />
+              </div>{" "}
+              <div className="form-control">
+                <label for="name">Salary Amount</label>
                 <Input
-                  type='number'
+                  type="number"
                   value={salary}
                   onChange={(e) => setSalary(e.target.value)}
                   required
                 />
-              </div>{' '}
+              </div>{" "}
               {/* <div className="register-btn"> */}
               {/* </div> */}
             </div>
@@ -159,7 +164,7 @@ const TeacherSalary = ({ history }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default TeacherSalary;

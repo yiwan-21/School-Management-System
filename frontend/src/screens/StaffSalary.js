@@ -35,6 +35,20 @@ const StaffSalary = ({ history }) => {
     value: staff.staffId,
     label: staff.staff_name,
   }));
+  const monthOptions = [
+    { value: "Baisakh", label: "January" },
+    { value: "Jestha", label: "February" },
+    { value: "Ashadh", label: "March" },
+    { value: "Shrawan", label: "April" },
+    { value: "Bhadra", label: "May" },
+    { value: "Ashoj", label: "June" },
+    { value: "Kartik", label: "July" },
+    { value: "Mangsir", label: "August" },
+    { value: "Poush", label: "September" },
+    { value: "Magh", label: "October" },
+    { value: "Falgun", label: "November" },
+    { value: "Chaitra", label: "December" },
+  ];
 
   useEffect(() => {
     dispatch(listStaffs());
@@ -123,28 +137,14 @@ const StaffSalary = ({ history }) => {
               </div>
               <div className="form-control">
                 <label for="month">Salary for Month</label>
-                <select
-                  id="class"
-                  value={month}
-                  onChange={(e) => setMonth(e.target.value)}
+                <Select
+                  options={monthOptions}
+                  onChange={(selectedOption) => setMonth(selectedOption.value)}
+                  isSearchable={false}
+                  placeholder="Select Month"
+                  value={monthOptions.find((option) => option.value === month)}
                   required
-                >
-                  <option value="">Select Month</option>
-
-                  <option value="Baisakh">Baisakh</option>
-                  <option value="Jestha">Jestha</option>
-                  <option value="Ashadh">Ashadh</option>
-                  <option value="Shrawan">Shrawan</option>
-                  <option value="Bhadra">Bhadra</option>
-                  <option value="Ashoj">Ashoj</option>
-                  <option value="Kartik">Kartik</option>
-                  <option value="Mangsir">Mangsir</option>
-                  <option value="Poush">Poush</option>
-                  <option value="Magh">Magh</option>
-                  <option value="Falgun">Falgun</option>
-                  <option value="Chaitra">Chaitra</option>
-                  {/* <option value='Ten'>Ten</option> */}
-                </select>
+                />
               </div>
               <div className="form-control">
                 <label for="name">Salary Amount</label>
