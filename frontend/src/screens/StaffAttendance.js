@@ -21,7 +21,6 @@ function StaffAttendance() {
     staffs: allStaffsData,
     error: errorStaffs,
   } = useSelector((state) => state.staffList);
-  const allStaffs = allStaffsData && [...allStaffsData];
 
   useEffect(() => {
     const staffsAttend = async () => {
@@ -39,6 +38,14 @@ function StaffAttendance() {
 
   var i = 1;
   const submitAttendance = () => {
+    attendanceList && allStaffsData &&
+    allStaffsData.filter((staff) => staff.present === undefined)
+      .forEach((staff) => {
+        const index = attendanceList.findIndex((s) => s._id === staff._id);
+        if (index !== -1) {
+          staff.present = attendanceList[index].present;
+        }
+      });
     dispatch(staffAttendances(allStaffsData));
   };
   const toggleAttendance = (id) => {
@@ -53,13 +60,13 @@ function StaffAttendance() {
           return staff;
         })
       );
-      allStaffs.filter((staff) => staff._id === id)[0].present = !isPresent;
+      allStaffsData.filter((staff) => staff._id === id)[0].present = !isPresent;
       setPresent((prev) => ({
         ...prev,
         [id]: !isPresent,
       }));
     } else {
-      allStaffs.filter((staff) => staff._id === id)[0].present = !present[id];
+      allStaffsData.filter((staff) => staff._id === id)[0].present = !present[id];
       setPresent((prev) => ({
         ...prev,
         [id]: !prev[id],
@@ -104,54 +111,52 @@ function StaffAttendance() {
           <Tbody>
             {attendanceList.length > 0
               ? attendanceList.map((staff) => (
-                  <Tr key={staff._id} className="attendance">
-                    <Td>{i++}</Td>
-                    <Td>
-                      <div className="flex items-center gap-4">
-                        <img
-                          src={staff.image}
-                          className="w-12 h-12 object-contain"
-                        />
-                        {staff.staff_name}
-                      </div>
-                    </Td>
-                    <Td
-                      className={`cursor-pointer ${
-                        staff.present ? "!bg-green-200" : "!bg-red-200"
+                <Tr key={staff._id} className="attendance">
+                  <Td className="font-semibold">{i++}</Td>
+                  <Td className="font-semibold">
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={staff.image}
+                        className="w-12 h-12 object-contain"
+                      />
+                      {staff.staff_name}
+                    </div>
+                  </Td>
+                  <Td
+                    className={`font-semibold cursor-pointer ${staff.present ? "!bg-green-200" : "!bg-red-200"
                       }`}
-                      onClick={() => toggleAttendance(staff._id)}
-                    >
-                      {staff.present ? "Present" : "Absent"}
-                    </Td>
-                  </Tr>
-                ))
-              : allStaffs &&
-                allStaffs.map((staff) => (
-                  <Tr key={staff._id} className="attendance">
-                    <Td>{i++}</Td>
-                    <Td>
-                      <div className="flex items-center gap-4">
-                        <img
-                          src={staff.image}
-                          className="w-12 h-12 object-contain"
-                        />
-                        {staff.staff_name}
-                      </div>
-                    </Td>
-                    <Td
-                      className={`cursor-pointer ${
-                        present[staff._id] ? "!bg-green-200" : "!bg-red-200"
+                    onClick={() => toggleAttendance(staff._id)}
+                  >
+                    {staff.present ? "Present" : "Absent"}
+                  </Td>
+                </Tr>
+              ))
+              : allStaffsData &&
+              allStaffsData.map((staff) => (
+                <Tr key={staff._id} className="attendance">
+                  <Td className="font-semibold">{i++}</Td>
+                  <Td className="font-semibold">
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={staff.image}
+                        className="w-12 h-12 object-contain"
+                      />
+                      {staff.staff_name}
+                    </div>
+                  </Td>
+                  <Td
+                    className={`font-semibold cursor-pointer ${present[staff._id] ? "!bg-green-200" : "!bg-red-200"
                       }`}
-                      onClick={() => toggleAttendance(staff._id)}
-                    >
-                      {present[staff._id] ? "Present" : "Absent"}
-                    </Td>
-                  </Tr>
-                ))}
+                    onClick={() => toggleAttendance(staff._id)}
+                  >
+                    {present[staff._id] ? "Present" : "Absent"}
+                  </Td>
+                </Tr>
+              ))}
           </Tbody>
         </Table>
       )}
-      {allStaffs && (
+      {allStaffsData && (
         <button
           onClick={submitAttendance}
           className={`block m-auto mt-4 text-white font-semibold py-2 px-4 rounded-md bg-green-500 hover:bg-green-600 cursor-pointer`}

@@ -25,7 +25,6 @@ const StudentDeepAttendance = ({ match }) => {
     students: allStudentsData,
     error: errorStudents,
   } = useSelector((state) => state.studentClassList);
-  const allStudents = allStudentsData && [...allStudentsData];
 
   useEffect(() => {
     const studentsAttend = async () => {
@@ -42,6 +41,14 @@ const StudentDeepAttendance = ({ match }) => {
   }, [dispatch, matchid]);
   var i = 1;
   const submitAttendance = () => {
+    attendanceList && allStudentsData &&
+    allStudentsData.filter((student) => student.present === undefined)
+      .forEach((student) => {
+        const index = attendanceList.findIndex((s) => s._id === student._id);
+        if (index !== -1) {
+          student.present = attendanceList[index].present;
+        }
+      });
     dispatch(studentAttendances(matchid, allStudentsData));
   };
   const toggleAttendance = (id) => {
@@ -56,15 +63,13 @@ const StudentDeepAttendance = ({ match }) => {
           return student;
         })
       );
-      allStudents.filter((student) => student._id === id)[0].present =
-        !isPresent;
+      allStudentsData.filter((student) => student._id === id)[0].present = !isPresent;
       setPresent((prev) => ({
         ...prev,
         [id]: !isPresent,
       }));
     } else {
-      allStudents.filter((student) => student._id === id)[0].present =
-        !present[id];
+      allStudentsData.filter((student) => student._id === id)[0].present = !present[id];
       setPresent((prev) => ({
         ...prev,
         [id]: !prev[id],
@@ -110,56 +115,54 @@ const StudentDeepAttendance = ({ match }) => {
           <Tbody>
             {attendanceList.length > 0
               ? attendanceList.map((student) => (
-                  <Tr key={student._id} className="attendance">
-                    <Td>{i++}</Td>
-                    <Td>
-                      <div className="flex items-center gap-4">
-                        <img
-                          src={student.image}
-                          className="w-12 h-12 object-contain"
-                        />
-                        {student.student_name}
-                      </div>
-                    </Td>
-                    <Td>{student.roll_no}</Td>
-                    <Td
-                      className={`cursor-pointer ${
-                        student.present ? "!bg-green-200" : "!bg-red-200"
+                <Tr key={student._id} className="attendance">
+                  <Td className="font-semibold">{i++}</Td>
+                  <Td className="font-semibold">
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={student.image}
+                        className="w-12 h-12 object-contain"
+                      />
+                      {student.student_name}
+                    </div>
+                  </Td>
+                  <Td className="font-semibold">{student.roll_no}</Td>
+                  <Td
+                    className={`font-semibold cursor-pointer ${student.present ? "!bg-green-200" : "!bg-red-200"
                       }`}
-                      onClick={() => toggleAttendance(student._id)}
-                    >
-                      {student.present ? "Present" : "Absent"}
-                    </Td>
-                  </Tr>
-                ))
-              : allStudents &&
-                allStudents.map((student) => (
-                  <Tr key={student._id} className="attendance">
-                    <Td>{i++}</Td>
-                    <Td>
-                      <div className="flex items-center gap-4">
-                        <img
-                          src={student.image}
-                          className="w-12 h-12 object-contain"
-                        />
-                        {student.student_name}
-                      </div>
-                    </Td>
-                    <Td>{student.roll_no}</Td>
-                    <Td
-                      className={`cursor-pointer ${
-                        present[student._id] ? "!bg-green-200" : "!bg-red-200"
+                    onClick={() => toggleAttendance(student._id)}
+                  >
+                    {student.present ? "Present" : "Absent"}
+                  </Td>
+                </Tr>
+              ))
+              : allStudentsData &&
+              allStudentsData.map((student) => (
+                <Tr key={student._id} className="attendance">
+                  <Td className="font-semibold">{i++}</Td>
+                  <Td className="font-semibold">
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={student.image}
+                        className="w-12 h-12 object-contain"
+                      />
+                      {student.student_name}
+                    </div>
+                  </Td>
+                  <Td className="font-semibold">{student.roll_no}</Td>
+                  <Td
+                    className={`font-semibold cursor-pointer ${present[student._id] ? "!bg-green-200" : "!bg-red-200"
                       }`}
-                      onClick={() => toggleAttendance(student._id)}
-                    >
-                      {present[student._id] ? "Present" : "Absent"}
-                    </Td>
-                  </Tr>
-                ))}
+                    onClick={() => toggleAttendance(student._id)}
+                  >
+                    {present[student._id] ? "Present" : "Absent"}
+                  </Td>
+                </Tr>
+              ))}
           </Tbody>
         </Table>
       )}
-      {allStudents && (
+      {allStudentsData && (
         <button
           onClick={submitAttendance}
           className={`block m-auto mt-4 text-white font-semibold py-2 px-4 rounded-md bg-green-500 hover:bg-green-600 cursor-pointer`}
