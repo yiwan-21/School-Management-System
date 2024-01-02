@@ -15,7 +15,9 @@ const TeacherSalary = ({ history }) => {
   const [valid, setValid] = useState(false);
   const [year, setYear] = useState("");
   const [salary, setSalary] = useState("");
-  const [month, setMonth] = useState("");
+  const [month, setMonth] = useState(null);
+  const [selectedTeacherError, setSelectedTeacherError] = useState(false);
+  const [monthError, setMonthError] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -35,19 +37,20 @@ const TeacherSalary = ({ history }) => {
     value: teacher.teacherId,
     label: teacher.teacher_name,
   }));
+
   const monthOptions = [
-    { value: "Baisakh", label: "January" },
-    { value: "Jestha", label: "February" },
-    { value: "Ashadh", label: "March" },
-    { value: "Shrawan", label: "April" },
-    { value: "Bhadra", label: "May" },
-    { value: "Ashoj", label: "June" },
-    { value: "Kartik", label: "July" },
-    { value: "Mangsir", label: "August" },
-    { value: "Poush", label: "September" },
-    { value: "Magh", label: "October" },
-    { value: "Falgun", label: "November" },
-    { value: "Chaitra", label: "December" },
+    { value: "January", label: "January" },
+    { value: "February", label: "February" },
+    { value: "March", label: "March" },
+    { value: "April", label: "April" },
+    { value: "May", label: "May" },
+    { value: "June", label: "June" },
+    { value: "July", label: "July" },
+    { value: "August", label: "August" },
+    { value: "September", label: "September" },
+    { value: "October", label: "October" },
+    { value: "November", label: "November" },
+    { value: "December", label: "December" },
   ];
 
   useEffect(() => {
@@ -60,17 +63,45 @@ const TeacherSalary = ({ history }) => {
     }
   }, [userCred, history]);
 
+  useEffect(() => {
+    let timer;
+    if (valid) {
+      timer = setTimeout(() => {
+        setValid(false);
+      }, 10000);
+    }
+  
+    return () => clearTimeout(timer);
+  }, [valid]);
+
   const submitHandler = (e) => {
     e.preventDefault();
-    setValid(true);
-    setTimeout(() => {
-      setValid(false);
-    }, 10000);
-    dispatch(PaySalary(teachername.trim(), id, year, month, salary));
-    setTeachername("");
-    setId("");
-    setYear("");
-    setSalary("");
+    let isValid = true;
+
+    if (!selectedTeacher) {
+      setSelectedTeacherError(true);
+      isValid = false;
+    } else {
+      setSelectedTeacherError(false);
+    }
+
+    if (!month) {
+      setMonthError(true);
+      isValid = false;
+    } else {
+      setMonthError(false);
+    }
+
+    if (isValid) {
+      dispatch(PaySalary(teachername.trim(), id, year, month.value, salary));
+      setTeachername("");
+      setSelectedTeacher(null);
+      setId("");
+      setYear("");
+      setSalary("");
+      setMonth(null);
+      setValid(true);
+    }
   };
 
   const handleSelectChange = (selectedOption) => {
@@ -81,6 +112,7 @@ const TeacherSalary = ({ history }) => {
     const selectedTeacherData = teachers.find(
       (teacher) => teacher.teacherId === selectedOption.value
     );
+
     if (selectedTeacherData && selectedTeacherData.estimated_salary) {
       setSalary(selectedTeacherData.estimated_salary.toString());
     }
@@ -94,6 +126,8 @@ const TeacherSalary = ({ history }) => {
           <Message variant="success" message={success.message} />
         )}
         {valid && error && <Message variant="danger" message={error} />}
+        {monthError && <Message variant="danger" message={"Month is required"} />}
+        {selectedTeacherError && <Message variant="danger" message={"Teacher name is required"} />}
 
         {loadingTeacher ? (
           <Loader />
@@ -126,17 +160,17 @@ const TeacherSalary = ({ history }) => {
                   type="string"
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
+                  required
                 />
               </div>{" "}
               <div className="form-control">
                 <label for="name">Salary for Month</label>
                 <Select
                   options={monthOptions}
-                  onChange={(selectedOption) => setMonth(selectedOption.value)}
+                  onChange={(selectedOption) => setMonth(selectedOption)}
                   isSearchable={false}
                   placeholder="Select Month"
-                  value={monthOptions.find((option) => option.value === month)}
-                  required
+                  value={month}
                 />
               </div>{" "}
               <div className="form-control">
