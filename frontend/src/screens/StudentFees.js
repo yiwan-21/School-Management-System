@@ -8,9 +8,18 @@ import {
   STUDENT_FEES_RESET,
   STUDENT_SEARCH_CLEAR,
 } from "../constants/studentConstants";
-// import axios from 'axios'
 import { studentSearch } from "../actions/studentActions";
-import { Button, Input, Select } from "@chakra-ui/react";
+import {
+  Button,
+  Input,
+  Select,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from "@chakra-ui/react";
+
 const StudentFees = () => {
   const dispatch = useDispatch();
   const studentdetails = useSelector((state) => state.studentSearch);
@@ -66,19 +75,15 @@ const StudentFees = () => {
     setTimeout(() => {
       setOk(false);
     }, 10000);
-    // setName('')
-    // setClassname('')
-    // setRollno('')
-    // setMonthlyfees('')
-
-    dispatch({
-      type: STUDENT_SEARCH_CLEAR,
-    });
   };
+  useEffect(() => {
+    if (successfees) {
+      setStudent({});
+    }
+  }, [successfees]);
   useEffect(() => {
     dispatch({
       type: STUDENT_FEES_RESET,
-      type: STUDENT_SEARCH_CLEAR,
     });
   }, [dispatch]);
   return (
@@ -236,68 +241,98 @@ const StudentFees = () => {
                     required
                   >
                     <option value="">Select Month</option>
-                    <option value="Baisakh">January</option>
-                    <option value="Jestha">February</option>
-                    <option value="Ashadh">March</option>
-                    <option value="Shrawan">April</option>
-                    <option value="Bhadra">May</option>
-                    <option value="Ashoj">June</option>
-                    <option value="Kartik">July</option>
-                    <option value="Mangsir">August</option>
-                    <option value="Poush">September</option>
-                    <option value="Magh">October</option>
-                    <option value="Falgun">November</option>
-                    <option value="Chaitra">December</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
                   </Select>
                 </div>{" "}
                 <div className="form-control">
                   <label for="name">Monthly Fees</label>
-                  <Input
-                    type="number"
-                    value={monthlyfees}
-                    onChange={(e) => setMonthlyfees(e.target.value)}
-                    required
-                  />
+                  <NumberInput defaultValue={0} min={0}>
+                    <NumberInputField
+                      value={monthlyfees}
+                      onChange={(e) => setMonthlyfees(e.target.value)}
+                      required
+                    />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
                 </div>{" "}
                 <div className="form-control">
                   <label for="name">Hostel Fees</label>
-                  <Input
-                    type="number"
-                    value={hostel_fees}
-                    onChange={(e) => setHostel_fees(e.target.value)}
-                  />
+                  <NumberInput defaultValue={0} min={0}>
+                    <NumberInputField
+                      value={hostel_fees}
+                      onChange={(e) => setHostel_fees(e.target.value)}
+                    />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
                 </div>{" "}
                 <div className="form-control">
                   <label for="name">Laboratory Fees</label>
-                  <Input
-                    type="number"
-                    value={laboratory_fees}
-                    onChange={(e) => setLaboratory_fees(e.target.value)}
-                  />
+                  <NumberInput defaultValue={0} min={0}>
+                    <NumberInputField
+                      value={laboratory_fees}
+                      onChange={(e) => setLaboratory_fees(e.target.value)}
+                    />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
                 </div>{" "}
                 <div className="form-control">
                   <label for="name">Computer Fees</label>
-                  <Input
-                    type="number"
-                    value={computer_fees}
-                    onChange={(e) => setComputer_fees(e.target.value)}
-                  />
+                  <NumberInput defaultValue={0} min={0}>
+                    <NumberInputField
+                      value={computer_fees}
+                      onChange={(e) => setComputer_fees(e.target.value)}
+                    />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
                 </div>
                 <div className="form-control">
                   <label for="name">Exam Fees</label>
-                  <Input
-                    type="number"
-                    value={exam_fees}
-                    onChange={(e) => setExam_fees(e.target.value)}
-                  />
+                  <NumberInput defaultValue={0} min={0}>
+                    <NumberInputField
+                      value={exam_fees}
+                      onChange={(e) => setExam_fees(e.target.value)}
+                    />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
                 </div>{" "}
                 <div className="form-control">
                   <label for="name">Miscellaneous</label>
-                  <Input
-                    type="number"
-                    value={miscellaneous}
-                    onChange={(e) => setMiscellaneous(e.target.value)}
-                  />
+                  <NumberInput defaultValue={0} min={0}>
+                    <NumberInputField
+                      value={miscellaneous}
+                      onChange={(e) => setMiscellaneous(e.target.value)}
+                    />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
                 </div>
               </div>
 
