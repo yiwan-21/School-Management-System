@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import "./Student.css";
 import { Button, Input, Select } from "@chakra-ui/react";
+import { SERVER_URL } from "../constants/serverConstant";
 const TeacherRegister = ({ history }) => {
   const dispatch = useDispatch();
   const [uploading, setUploading] = useState(false);
