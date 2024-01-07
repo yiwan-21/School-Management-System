@@ -6,6 +6,7 @@ import Loader from "../components/Loader";
 import { getTeacherDetails, Update } from "../actions/teacherActions";
 import { Button, Input, Select } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
+import { SERVER_URL } from "../constants/serverConstant";
 
 const TeacherDetailsEdit = ({ match }) => {
   const history = useHistory();
@@ -53,9 +54,9 @@ const TeacherDetailsEdit = ({ match }) => {
   }, [teacher]);
 
   const uploadFileHandler = async (e) => {
-    const { data: CLOUDINARY_URL } = await axios.get("/api/config/cloudinary");
+    const { data: CLOUDINARY_URL } = await axios.get(`${SERVER_URL}/api/config/cloudinary`);
     const { data: CLOUDINARY_UPLOAD_PRESET } = await axios.get(
-      "/api/config/cloudinarypreset"
+      `${SERVER_URL}/api/config/cloudinarypreset`
     );
 
     setTime(true);

@@ -25,6 +25,7 @@ import {
   STUDENT_FEES_SUCCESS,
   STUDENT_FEES_FAIL,
 } from "../constants/studentConstants";
+import { SERVER_URL } from "../constants/serverConstant";
 
 //the below uses function within a function which is privileged by redux-thunk
 
@@ -33,7 +34,7 @@ export const listStudents = () => async (dispatch) => {
     dispatch({
       type: STUDENT_LIST_REQUEST,
     });
-    const { data } = await axios.get("/api/students");
+    const { data } = await axios.get(`${SERVER_URL}/api/students`);
     dispatch({
       type: STUDENT_LIST_SUCCESS,
       payload: data,
@@ -55,7 +56,7 @@ export const classlistStudent = (id) => async (dispatch) => {
     dispatch({
       type: STUDENT_CLASS_LIST_REQUEST,
     });
-    const { data } = await axios.get(`/api/students/class/${id}`);
+    const { data } = await axios.get(`${SERVER_URL}/api/students/class/${id}`);
     dispatch({
       type: STUDENT_CLASS_LIST_SUCCESS,
       payload: data,
@@ -84,7 +85,7 @@ export const studentSearch = (name, classname) => async (dispatch) => {
     console.log(name, classname);
 
     const { data } = await axios.get(
-      `/api/students/search/${classname}/${name}`
+      `${SERVER_URL}/api/students/search/${classname}/${name}`
     );
     console.log("Data is ", data);
     dispatch({
@@ -107,7 +108,7 @@ export const getStudentDetails = (id) => async (dispatch) => {
     dispatch({
       type: STUDENT_SEARCH_REQUEST,
     });
-    const { data } = await axios.post(`/api/students/edit/${id}`);
+    const { data } = await axios.post(`${SERVER_URL}/api/students/edit/${id}`);
     console.log("Data is ", data);
     dispatch({
       type: STUDENT_SEARCH_SUCCESS,
@@ -154,7 +155,7 @@ export const Update =
           },
         };
         const { data } = await axios.put(
-          `/api/students/update/${id}`,
+          `${SERVER_URL}/api/students/update/${id}`,
           {
             student_name,
             classname,
@@ -215,7 +216,7 @@ export const Register =
           },
         };
         const { data } = await axios.post(
-          "/api/students/register",
+          `${SERVER_URL}/api/students/register`,
           {
             student_name,
             classname,
@@ -254,7 +255,7 @@ export const deleteStudent = (id) => async (dispatch) => {
     dispatch({
       type: STUDENT_DELETE_REQUEST,
     });
-    const { data } = await axios.delete(`/api/students/delete/${id}`);
+    const { data } = await axios.delete(`${SERVER_URL}/api/students/delete/${id}`);
     dispatch({
       type: STUDENT_DELETE_SUCCESS,
       payload: data,
@@ -289,7 +290,7 @@ export const studentAttendances =
         },
       };
       const { data } = await axios.post(
-        `/api/students/attendance/${classname}`,
+        `${SERVER_URL}/api/students/attendance/${classname}`,
         {
           students,
         },
@@ -346,7 +347,7 @@ export const PayFees =
           },
         };
         const { data } = await axios.post(
-          `/api/students/fees/${studentId}`,
+          `${SERVER_URL}/api/students/fees/${studentId}`,
           {
             student_name,
             classname,

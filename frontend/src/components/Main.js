@@ -7,6 +7,7 @@ import DashboardCard from "./DashboardCard";
 import Footer from "./Footer";
 import { Link } from "react-router-dom";
 import { routes } from "../constants/dashboardConstants";
+import { SERVER_URL } from "../constants/serverConstant";
 
 const Main = () => {
   const [items, setItems] = useState([]);
@@ -16,7 +17,7 @@ const Main = () => {
     // await axios.get('/api/students/:classes')
     const fetchItems = async () => {
       setLoading(true);
-      const { data } = await axios.get("/dashboard");
+      const { data } = await axios.get(`${SERVER_URL}/dashboard`);
       setLoading(false);
       console.log(data);
       setItems(data);

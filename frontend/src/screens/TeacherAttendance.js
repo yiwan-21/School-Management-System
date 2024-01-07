@@ -6,6 +6,7 @@ import Loader from "../components/Loader";
 import { listTeachers, teacherAttendances } from "../actions/teacherActions";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { TEACHER_ATTENDANCE_RESET } from "../constants/teacherConstants";
+import { SERVER_URL } from "../constants/serverConstant";
 
 function TeacherAttendance() {
   const [attendanceList, setAttendanceList] = useState([]);
@@ -25,7 +26,7 @@ function TeacherAttendance() {
   useEffect(() => {
     const teachersAttend = async () => {
       axios
-        .get(`/api/teachers/attendance`)
+        .get(`${SERVER_URL}/api/teachers/attendance`)
         .then((res) => setAttendanceList(res.data.teachers))
         .catch((err) => console.log(err.response.data.message));
     };

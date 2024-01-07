@@ -22,6 +22,7 @@ import {
   STAFF_ATTENDANCE_SUCCESS,
   STAFF_ATTENDANCE_FAIL,
 } from "../constants/staffConstants";
+import { SERVER_URL } from "../constants/serverConstant";
 
 export const PaySalary =
   (
@@ -47,7 +48,7 @@ export const PaySalary =
         },
       };
       const { data } = await axios.post(
-        `/api/STAFFs/fees/${staffname}/${staffid}`,
+        `${SERVER_URL}/api/STAFFs/fees/${staffname}/${staffid}`,
         {
           salaryForTheYear,
           salaryForTheMonth,
@@ -108,7 +109,7 @@ export const staffregister =
         },
       };
       const { data } = await axios.post(
-        "/api/staffs/register",
+        `${SERVER_URL}/api/staffs/register`,
         {
           staff_name,
 
@@ -150,7 +151,7 @@ export const getStaffDetails = (id) => async (dispatch) => {
     dispatch({
       type: STAFF_SEARCH_REQUEST,
     });
-    const { data } = await axios.post(`/api/staffs/edit/${id}`);
+    const { data } = await axios.post(`${SERVER_URL}/api/staffs/edit/${id}`);
     console.log("Data is ", data);
     dispatch({
       type: STAFF_SEARCH_SUCCESS,
@@ -198,7 +199,7 @@ export const Update =
         },
       };
       const { data } = await axios.put(
-        `/api/staffs/update/${id}`,
+        `${SERVER_URL}/api/staffs/update/${id}`,
         {
           image,
           staff_name,
@@ -236,7 +237,7 @@ export const deleteStaff = (id) => async (dispatch) => {
     dispatch({
       type: STAFF_DELETE_REQUEST,
     });
-    const { data } = await axios.delete(`/api/staffs/delete/${id}`);
+    const { data } = await axios.delete(`${SERVER_URL}/api/staffs/delete/${id}`);
     dispatch({
       type: STAFF_DELETE_SUCCESS,
       payload: data,
@@ -259,7 +260,7 @@ export const listStaffs = () => async (dispatch) => {
     dispatch({
       type: STAFF_LIST_REQUEST,
     });
-    const { data } = await axios.get("/api/staffs");
+    const { data } = await axios.get(`${SERVER_URL}/api/staffs`);
     dispatch({
       type: STAFF_LIST_SUCCESS,
       payload: data,
@@ -292,7 +293,7 @@ export const staffAttendances = (staffs) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      '/api/staffs/attendance/',
+      `${SERVER_URL}/api/staffs/attendance/`,
       {
         staffs,
       },

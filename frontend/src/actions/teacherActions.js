@@ -22,6 +22,7 @@ import {
   TEACHER_ATTENDANCE_SUCCESS,
   TEACHER_ATTENDANCE_FAIL,
 } from "../constants/teacherConstants";
+import { SERVER_URL } from "../constants/serverConstant";
 
 export const PaySalary =
   (
@@ -47,7 +48,7 @@ export const PaySalary =
         },
       };
       const { data } = await axios.post(
-        `/api/teachers/fees/${teachername}/${teacherid}`,
+        `${SERVER_URL}/api/teachers/fees/${teachername}/${teacherid}`,
         {
           salaryForTheYear,
           salaryForTheMonth,
@@ -108,7 +109,7 @@ export const teacherregister =
         },
       };
       const { data } = await axios.post(
-        "/api/teachers/register",
+        `${SERVER_URL}/api/teachers/register`,
         {
           teacher_name,
 
@@ -151,7 +152,7 @@ export const getTeacherDetails = (id) => async (dispatch) => {
     dispatch({
       type: TEACHER_SEARCH_REQUEST,
     });
-    const { data } = await axios.post(`/api/teachers/edit/${id}`);
+    const { data } = await axios.post(`${SERVER_URL}/api/teachers/edit/${id}`);
     console.log("Data is ", data);
     dispatch({
       type: TEACHER_SEARCH_SUCCESS,
@@ -199,7 +200,7 @@ export const Update =
         },
       };
       const { data } = await axios.put(
-        `/api/teachers/update/${id}`,
+        `${SERVER_URL}/api/teachers/update/${id}`,
         {
           teacher_name,
           email,
@@ -237,7 +238,7 @@ export const deleteTeacher = (id) => async (dispatch) => {
     dispatch({
       type: TEACHER_DELETE_REQUEST,
     });
-    const { data } = await axios.delete(`/api/teachers/delete/${id}`);
+    const { data } = await axios.delete(`${SERVER_URL}/api/teachers/delete/${id}`);
     dispatch({
       type: TEACHER_DELETE_SUCCESS,
       payload: data,
@@ -260,7 +261,7 @@ export const listTeachers = () => async (dispatch) => {
     dispatch({
       type: TEACHER_LIST_REQUEST,
     });
-    const { data } = await axios.get("/api/teachers");
+    const { data } = await axios.get(`${SERVER_URL}/api/teachers`);
     dispatch({
       type: TEACHER_LIST_SUCCESS,
       payload: data,
@@ -293,7 +294,7 @@ export const teacherAttendances = (teachers) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      '/api/teachers/attendance/',
+      `${SERVER_URL}/api/teachers/attendance/`,
       {
         teachers,
       },

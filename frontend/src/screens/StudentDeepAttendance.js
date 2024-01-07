@@ -9,6 +9,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import axios from "axios";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { SERVER_URL } from "../constants/serverConstant";
 
 const StudentDeepAttendance = ({ match }) => {
   const matchid = match.params.class;
@@ -29,7 +30,7 @@ const StudentDeepAttendance = ({ match }) => {
   useEffect(() => {
     const studentsAttend = async () => {
       axios
-        .get(`/api/students/class/${matchid}/attendance`)
+        .get(`${SERVER_URL}/api/students/class/${matchid}/attendance`)
         .then((res) => setAttendanceList(res.data.students))
         .catch((err) => console.log(err.response.data.message));
     };

@@ -6,6 +6,7 @@ import Loader from "../components/Loader";
 import { listStaffs, staffAttendances } from "../actions/staffActions";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { STAFF_ATTENDANCE_RESET } from "../constants/staffConstants";
+import { SERVER_URL } from "../constants/serverConstant";
 
 function StaffAttendance() {
   const [attendanceList, setAttendanceList] = useState([]);
@@ -25,7 +26,7 @@ function StaffAttendance() {
   useEffect(() => {
     const staffsAttend = async () => {
       axios
-        .get(`/api/staffs/attendance`)
+        .get(`${SERVER_URL}/api/staffs/attendance`)
         .then((res) => setAttendanceList(res.data.staffs))
         .catch((err) => console.log(err.response.data.message));
     };
