@@ -1,0 +1,1 @@
+export const CLIENT_URL = "https://school-management-system-client.vercel.app/"

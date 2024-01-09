@@ -1,9 +1,7 @@
 // following is the es modules declaration style in nodejs
 import express from 'express'
 import path from 'path'
-
 // import products from "./data/"
-// const express = require('express')
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 // import items from './data/Data.js'
@@ -13,13 +11,19 @@ import studentRoutes from './routes/studentRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import teacherRoutes from './routes/teacherRoutes.js'
 import staffRoutes from './routes/staffRoutes.js'
+import { CLIENT_URL } from './config/client.js'
 // const items = require('./data/Data')
 // const classes = require('./data/ClassData')
 // d0t
 dotenv.config()
 connectDB()
+
+const express = require('express')
+const cors = require('cors')
+
 const app = express()
 app.use(express.json())
+app.use(cors({ origin: CLIENT_URL }))
 
 app.get('/dashboard', async (req, res) => {
   const items = await Dashboard.find()
