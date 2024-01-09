@@ -24,7 +24,14 @@ connectDB()
 
 const app = express()
 app.use(express.json())
-app.use(cors({ origin: CLIENT_URL }))
+app.use(cors())
+
+app.all('*', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', CLIENT_URL)
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With')
+  next()
+})
 
 app.get('/dashboard', async (req, res) => {
   const items = await Dashboard.find()
