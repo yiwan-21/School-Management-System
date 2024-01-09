@@ -1,6 +1,10 @@
 // following is the es modules declaration style in nodejs
 import express from 'express'
 import path from 'path'
+import cors from 'cors'
+// const express = require('express')
+// const path = require('path')
+// const cors = require('cors')
 // import products from "./data/"
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
@@ -17,9 +21,6 @@ import { CLIENT_URL } from './config/client.js'
 // d0t
 dotenv.config()
 connectDB()
-
-const express = require('express')
-const cors = require('cors')
 
 const app = express()
 app.use(express.json())
